@@ -236,7 +236,45 @@
         .hamburger.toggle .line3 {
             transform: rotate(45deg) translate(-7px, -7px);
         }
+        /* Nav Controls (Hamburger & Cart Icon) */
+        .nav-controls {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
 
+        /* NEW: Cart Icon Styles */
+        .cart-icon-link {
+            position: relative;
+            z-index: 1002;
+        }
+        .cart-icon-link svg {
+            width: 28px;
+            height: 28px;
+            fill: var(--text-primary);
+            transition: fill 0.3s ease;
+        }
+        .cart-icon-link:hover svg {
+            fill: var(--accent-primary);
+        }
+        .cart-count {
+            position: absolute;
+            top: -8px;
+            right: -10px;
+            background: var(--accent-primary);
+            color: #fff;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.75rem;
+            font-weight: 700;
+            line-height: 1;
+            border: 2px solid var(--bg-dark-primary);
+            display: none; /* Hidden by default */
+        }
         /* --- 4. Hero Section --- */
         #hero {
             min-height: 100vh;
@@ -956,6 +994,10 @@
                     <li><a href="#about-us">About</a></li>
                 </ul>
             </nav>
+            <a href="cart.html" class="cart-icon-link">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M7 18c-1.1 0-1.99.9-1.99 2S5.9 22 7 22s2-.9 2-2-.9-2-2-2zM1 2v2h2l3.6 7.59-1.35 2.45c-.16.28-.25.61-.25.96 0 1.1.9 2 2 2h12v-2H7.42c-.14 0-.25-.11-.25-.25l.03-.12.9-1.63h7.45c.75 0 1.41-.41 1.75-1.03l3.58-6.49c.08-.14.12-.31.12-.48 0-.55-.45-1-1-1H5.21l-.94-2H1zm16 16c-1.1 0-1.99.9-1.99 2s.89 2 1.99 2 2-.9 2-2-.9-2-2-2z"/></svg>
+                    <span class="cart-count">0</span>
+                </a>
             <div class="hamburger">
                 <div class="line line1"></div>
                 <div class="line line2"></div>
@@ -1026,7 +1068,7 @@
                             <audio class="player" id="beat1" src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" preload="none"></audio>
                             <div class="actions">
                                 <span class="price">$1.99</span>
-                                <a href="#" class="btn btn-secondary">Add to Cart</a>
+                                <a href="cart.html" class="btn btn-secondary">Add to Cart</a>
                             </div>
                         </div>
                     </div>
@@ -1048,7 +1090,7 @@
                             <audio class="player" id="beat2" src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-2.mp3" preload="none"></audio>
                             <div class="actions">
                                 <span class="price">$1.99</span>
-                                <a href="#" class="btn btn-secondary">Add to Cart</a>
+                                <a href="cart.html" class="btn btn-secondary">Add to Cart</a>
                             </div>
                         </div>
                     </div>
@@ -1069,7 +1111,7 @@
                             <audio class="player" id="beat3" src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-3.mp3" preload="none"></audio>
                             <div class="actions">
                                 <span class="price">$4.99</span>
-                                <a href="#" class="btn btn-secondary">Add to Cart</a>
+                                <a href="cart.html" class="btn btn-secondary">Add to Cart</a>
                             </div>
                         </div>
                     </div>
@@ -1090,7 +1132,7 @@
                             <audio class="player" id="beat4" src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-4.mp3" preload="none"></audio>
                             <div class="actions">
                                 <span class="price">$4.99</span>
-                                <a href="#" class="btn btn-secondary">Add to Cart</a>
+                                <a href="cart.html" class="btn btn-secondary">Add to Cart</a>
                             </div>
                         </div>
                     </div>
@@ -1127,7 +1169,7 @@
                     
                     <div class="pricing-card animate-on-scroll">
                         <h3>Basic</h3>
-                        <div class="price-tag">$29<span>.99</span></div>
+                        <div class="price-tag">$9<span>.99</span></div>
                         <ul>
                             <li>MP3 File</li>
                             <li>50,000 Streams</li>
@@ -1140,11 +1182,11 @@
                     <div class="pricing-card popular animate-on-scroll" style="--delay: 150ms;">
                         <div class="popular-badge">Most Popular</div>
                         <h3>Premium</h3>
-                        <div class="price-tag">$49<span>.99</span></div>
+                        <div class="price-tag">$25<span>.00</span></div>
                         <ul>
                             <li>MP3 & WAV Files</li>
                             <li>500,000 Streams</li>
-                            <li>Use for 1 Music Video</li>
+                            <li>Use for 5 Music Video</li>
                             <li>Must Credit (Prod. BHXBEATS)</li>
                         </ul>
                         <a href="#" class="btn">Select Plan</a>
@@ -1152,14 +1194,14 @@
 
                     <div class="pricing-card animate-on-scroll" style="--delay: 300ms;">
                         <h3>Unlimited</h3>
-                        <div class="price-tag">$149<span>.99</span></div>
+                        <div class="price-tag">$49<span>.99</span></div>
                         <ul>
                             <li>MP3, WAV & Track Stems</li>
                             <li>Unlimited Streams</li>
                             <li>Unlimited Music Videos</li>
                             <li>No Credit Required</li>
                         </ul>
-                        <a href="#" class="btn btn-secondary">Select Plan</a>
+                        <a href="license.html #" class="btn btn-secondary">Select Plan</a>
                     </div>
                     
                 </div>
@@ -1214,7 +1256,7 @@
     </footer>
 
 
-    <script>
+      <script>
         document.addEventListener('DOMContentLoaded', function() {
 
             // --- 1. Mobile Navigation Toggle ---
@@ -1227,7 +1269,6 @@
                 hamburger.classList.toggle('toggle');
             });
 
-            // Close nav when a link is clicked
             links.forEach(link => {
                 link.addEventListener('click', () => {
                     if (navLinks.classList.contains('nav-active')) {
@@ -1260,7 +1301,7 @@
                         }
                     });
                 }, {
-                    threshold: 0.1 // 10% of the element must be visible
+                    threshold: 0.1 
                 });
 
                 scrollElements.forEach(el => {
@@ -1295,17 +1336,18 @@
                     card.classList.add('is-playing');
                 }
 
-                art.addEventListener('click', () => {
-                    if (audio.paused) {
-                        // Pause other playing audio first
-                        if (currentlyPlaying && currentlyPlaying !== audio) {
-                            currentlyPlaying.pause();
+                if(art) {
+                    art.addEventListener('click', () => {
+                        if (audio.paused) {
+                            if (currentlyPlaying && currentlyPlaying !== audio) {
+                                currentlyPlaying.pause();
+                            }
+                            audio.play();
+                        } else {
+                            audio.pause();
                         }
-                        audio.play();
-                    } else {
-                        audio.pause();
-                    }
-                });
+                    });
+                }
                 
                 audio.addEventListener('ended', () => {
                     showPlay();
@@ -1320,7 +1362,6 @@
                 });
                 
                 audio.addEventListener('play', () => {
-                    // This ensures only one play/pause icon is active
                     beatCards.forEach(otherCard => {
                         if (otherCard !== card) {
                             otherCard.querySelector('.play-path').style.display = 'block';
@@ -1332,8 +1373,78 @@
                     currentlyPlaying = audio;
                 });
             });
+
+            // --- 5. NEW: Cart Functionality ---
+            
+            // Function to update the cart count in the header
+            function updateCartCount() {
+                const cart = JSON.parse(localStorage.getItem('bhxbeats_cart')) || [];
+                const cartCount = document.querySelector('.cart-count');
+                if (cartCount) {
+                    cartCount.textContent = cart.length;
+                    cartCount.style.display = cart.length > 0 ? 'flex' : 'none';
+                }
+            }
+
+            // Function to handle adding items to the cart
+            function addToCart(e) {
+                e.preventDefault(); // Stop the link from navigating
+                
+                const button = e.target;
+                const card = button.closest('.beat-card');
+                
+                // Get beat info from the card
+                const beatId = card.querySelector('.art').dataset.beat;
+                const title = card.querySelector('h3').textContent;
+                const priceText = card.querySelector('.price').textContent.replace('$', '');
+                const price = parseFloat(priceText);
+                const image = card.querySelector('.art img').src;
+
+                // For this simple cart, we'll just add the "Basic License"
+                // A real site would pop up a modal to select a license
+                const license = 'Basic License'; 
+                
+                // Create a unique ID for this item *including* license
+                const cartItemId = `${beatId}_basic`;
+
+                const cartItem = {
+                    id: cartItemId,
+                    title: title,
+                    price: price,
+                    image: image,
+                    license: license
+                };
+
+                // Get cart from local storage, or create new array
+                let cart = JSON.parse(localStorage.getItem('bhxbeats_cart')) || [];
+                
+                // Add new item
+                cart.push(cartItem);
+                
+                // Save back to local storage
+                localStorage.setItem('bhxbeats_cart', JSON.stringify(cart));
+                
+                // Update UI
+                updateCartCount();
+
+                // Give user feedback
+                button.textContent = 'Added!';
+                button.style.opacity = '0.7';
+                setTimeout(() => {
+                    button.textContent = 'Add to Cart';
+                    button.style.opacity = '1';
+                }, 2000);
+            }
+
+            // Add listeners to all "Add to Cart" buttons
+            const addToCartButtons = document.querySelectorAll('.beat-card .btn-secondary');
+            addToCartButtons.forEach(button => {
+                button.addEventListener('click', addToCart);
+            });
+
+            // --- Run on initial page load ---
+            updateCartCount();
         });
     </script>
-
 </body>
 </html>
