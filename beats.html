@@ -1,0 +1,1091 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>All Beats | BHXBEATS</title>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;900&display=swap" rel="stylesheet">
+
+    <style>
+        /* --- 1. Global Variables & Resets --- */
+        :root {
+            --bg-dark-primary: #0D0C0F;
+            --bg-dark-secondary: #1A1A1D;
+            --bg-dark-tertiary: #2B2B2F;
+            --text-primary: #F5F5F7;
+            --text-secondary: #8A8A8E;
+            --accent-primary: #6E00FF;
+            --accent-secondary: #B800C2;
+            --brand-gradient: linear-gradient(90deg, var(--accent-primary) 0%, var(--accent-secondary) 100%);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: var(--bg-dark-primary);
+            color: var(--text-primary);
+            line-height: 1.7;
+            overflow-x: hidden;
+        }
+
+        h1, h2, h3, h4, h5, h6 {
+            font-weight: 700;
+            margin-bottom: 1rem;
+            line-height: 1.2;
+        }
+
+        h2 {
+            font-size: 2.2rem;
+            font-weight: 900;
+            text-align: center;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 3rem;
+        }
+
+        p {
+            margin-bottom: 1.5rem;
+            font-size: 1rem;
+            color: var(--text-secondary);
+        }
+
+        a {
+            color: var(--accent-primary);
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        a:hover {
+            color: var(--accent-secondary);
+        }
+
+        img {
+            max-width: 100%;
+            display: block;
+        }
+
+        section {
+            padding: 60px 0;
+        }
+
+        /* --- 2. Utility & Container --- */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        .carousel-container {
+            margin: 0 -20px;
+            padding: 0 20px;
+            overflow-y: hidden;
+        }
+
+        .btn {
+            display: inline-block;
+            background: var(--brand-gradient);
+            color: #fff;
+            padding: 14px 32px;
+            border-radius: 50px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            border: 2px solid transparent;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 20px rgba(110, 0, 255, 0.3);
+        }
+
+        .btn:hover {
+            color: #fff;
+            transform: translateY(-3px);
+            box-shadow: 0 10px 30px rgba(110, 0, 255, 0.5);
+        }
+
+        .btn-secondary {
+            background: transparent;
+            border: 2px solid var(--bg-dark-tertiary);
+            color: var(--text-primary);
+            box-shadow: none;
+        }
+
+        .btn-secondary:hover {
+            border-color: var(--accent-primary);
+            color: var(--accent-primary);
+            box-shadow: none;
+            transform: translateY(0);
+        }
+        
+        .text-gradient {
+            background: var(--brand-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            text-fill-color: transparent;
+        }
+        
+        /* --- 3. Header & Navigation --- */
+        header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            padding: 20px 0;
+            z-index: 1000;
+            background: transparent;
+            border-bottom: 1px solid transparent;
+            transition: background 0.3s ease, border 0.3s ease, box-shadow 0.3s ease, backdrop-filter 0.3s ease;
+        }
+        
+        .header-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            width: 100%;
+        }
+
+        header.header-scrolled {
+            background: rgba(13, 12, 15, 0.8);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid var(--bg-dark-secondary);
+            box-shadow: 0 5px 20px rgba(0,0,0,0.3);
+        }
+
+        .logo {
+            font-size: 1.8rem;
+            font-weight: 900;
+            color: #fff;
+            letter-spacing: -1px;
+            z-index: 1003; 
+        }
+
+        .logo span {
+            color: var(--accent-primary);
+        }
+
+        .nav-links {
+            list-style: none;
+            position: fixed;
+            top: 0;
+            right: 0;
+            height: 100vh;
+            width: 70%;
+            max-width: 300px;
+            background: var(--bg-dark-secondary);
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            transform: translateX(100%);
+            transition: transform 0.3s ease-in-out;
+            box-shadow: -5px 0 20px rgba(0,0,0,0.3);
+            display: flex; 
+        }
+
+        .nav-links li {
+            margin: 20px 0;
+        }
+
+        .nav-links.nav-active {
+            transform: translateX(0);
+        }
+
+        .nav-links a {
+            font-weight: 600;
+            text-transform: uppercase;
+            font-size: 0.9rem;
+            letter-spacing: 1px;
+            color: var(--text-primary);
+        }
+        .nav-links a:hover {
+            color: var(--accent-primary);
+        }
+
+        /* NEW: Active link style */
+        .nav-links a.active {
+            color: var(--accent-primary);
+            font-weight: 700;
+        }
+        
+        .hamburger {
+            display: block;
+            cursor: pointer;
+            z-index: 1002;
+        }
+
+        .hamburger .line {
+            width: 30px;
+            height: 3px;
+            background: #fff;
+            margin: 6px 0;
+            border-radius: 2px;
+            transition: all 0.3s ease;
+        }
+        
+        .hamburger.toggle .line1 {
+            transform: rotate(-45deg) translate(-7px, 7px);
+        }
+        .hamburger.toggle .line2 {
+            opacity: 0;
+        }
+        .hamburger.toggle .line3 {
+            transform: rotate(45deg) translate(-7px, -7px);
+        }
+
+        /* --- 4. Page Header (NEW) --- */
+        #page-header {
+            padding-top: 140px; /* Account for fixed header */
+            padding-bottom: 60px;
+            text-align: center;
+            background: var(--bg-dark-secondary); /* Match featured beats bg */
+        }
+        #page-header h1 {
+            font-size: 3rem;
+            font-weight: 900;
+            margin-bottom: 0.5rem;
+        }
+        #page-header p {
+            font-size: 1.2rem;
+            color: var(--text-secondary);
+            margin-bottom: 0;
+        }
+
+        /* --- 5. Filters (NEW) --- */
+        #all-beats {
+            background: var(--bg-dark-primary);
+        }
+
+        .filters-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            margin-bottom: 2.5rem;
+        }
+
+        .search-bar {
+            flex-grow: 1;
+            min-width: 200px;
+            background: var(--bg-dark-secondary);
+            border: 1px solid var(--bg-dark-tertiary);
+            border-radius: 50px;
+            padding: 14px 22px;
+            font-family: 'Poppins', sans-serif;
+            color: var(--text-primary);
+            font-size: 1rem;
+        }
+        .search-bar::placeholder {
+            color: var(--text-secondary);
+        }
+        .search-bar:focus {
+            outline: none;
+            border-color: var(--accent-primary);
+        }
+
+        .filter-select {
+            background: var(--bg-dark-secondary);
+            border: 1px solid var(--bg-dark-tertiary);
+            border-radius: 50px;
+            padding: 14px 22px;
+            font-family: 'Poppins', sans-serif;
+            color: var(--text-primary);
+            font-size: 1rem;
+            -webkit-appearance: none;
+            appearance: none;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='%238A8A8E' viewBox='0 0 16 16'%3E%3Cpath d='M7.247 11.14 2.451 5.658C1.885 5.013 2.345 4 3.204 4h9.592a1 1 0 0 1 .753 1.659l-4.796 5.48a1 1 0 0 1-1.506 0z'/%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right 20px center;
+            padding-right: 45px;
+            cursor: pointer;
+        }
+        .filter-select:focus {
+            outline: none;
+            border-color: var(--accent-primary);
+        }
+
+
+        /* --- 6. Beat Card & Grid --- */
+        
+        /* THIS IS THE KEY CHANGE FOR THIS PAGE */
+        /* On mobile, use a vertical grid, not a carousel */
+        .beat-grid {
+            display: grid;
+            grid-template-columns: 1fr; /* 1 column on mobile */
+            gap: 1.5rem;
+        }
+
+        .beat-card {
+            background: var(--bg-dark-primary);
+            border-radius: 12px;
+            overflow: hidden;
+            border: 1px solid var(--bg-dark-tertiary);
+            transition: all 0.3s ease;
+        }
+
+        .beat-card .art {
+            position: relative;
+            width: 100%;
+            aspect-ratio: 1 / 1;
+            background: #333;
+            overflow: hidden; 
+            cursor: pointer;
+        }
+        
+        .beat-card .art img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.3s ease;
+        }
+
+        .art-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.6);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+        
+        .art-overlay .play-icon {
+            width: 60px;
+            height: 60px;
+            fill: rgba(255, 255, 255, 0.9);
+            transform: scale(0.8);
+            transition: transform 0.3s ease;
+        }
+        
+        .play-icon .pause-path {
+            display: none;
+        }
+
+        .beat-card.is-playing .art-overlay {
+             opacity: 1;
+        }
+        .beat-card.is-playing .play-icon {
+            transform: scale(1);
+        }
+        
+        .beat-card.is-playing .pause-path {
+            display: block;
+        }
+        .beat-card.is-playing .play-path {
+            display: none;
+        }
+
+        .beat-card .info {
+            padding: 20px;
+        }
+
+        .beat-card h3 {
+            font-size: 1.3rem;
+            margin-bottom: 5px;
+            color: #fff;
+        }
+        
+        .beat-card .tags {
+            margin-bottom: 15px;
+        }
+
+        .beat-card .tags span {
+            display: inline-block;
+            background: var(--bg-dark-secondary);
+            color: var(--text-secondary);
+            font-size: 0.75rem;
+            padding: 4px 10px;
+            border-radius: 20px;
+            margin-right: 5px;
+            font-weight: 600;
+        }
+
+        .beat-card .player {
+            display: none;
+        }
+
+        .beat-card .actions {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 1rem;
+        }
+
+        .beat-card .price {
+            font-size: 1.4rem;
+            font-weight: 700;
+            color: var(--accent-primary);
+        }
+        
+        .beat-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3), 0 0 20px rgba(110, 0, 255, 0.2);
+            border-color: var(--accent-primary);
+        }
+        .beat-card:hover .art img {
+            transform: scale(1.05);
+        }
+        .beat-card:hover .art-overlay {
+            opacity: 1;
+        }
+        .beat-card:hover .play-icon {
+            transform: scale(1);
+        }
+        .beat-card:hover .btn-secondary {
+            background: var(--brand-gradient);
+            color: #fff;
+            border-color: transparent;
+            box-shadow: 0 5px 20px rgba(110, 0, 255, 0.3);
+        }
+        
+        /* --- 7. Footer (Copied from index.html) --- */
+        footer {
+            background: #000;
+            padding-top: 60px;
+            font-size: 0.9rem;
+        }
+        
+        .footer-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px 40px 20px;
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 40px;
+            text-align: center;
+        }
+        
+        .footer-about .logo {
+            display: inline-block;
+            margin-bottom: 1rem;
+        }
+
+        .footer-about p {
+            max-width: 350px;
+            margin: 0 auto;
+        }
+        
+        .footer-heading {
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: #fff;
+            margin-bottom: 1.5rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        
+        .footer-links ul {
+            list-style: none;
+        }
+        
+        .footer-links ul li {
+            margin-bottom: 10px;
+        }
+        
+        .footer-links ul a {
+            color: var(--text-secondary);
+            font-weight: 500;
+        }
+        .footer-links ul a:hover {
+            color: #fff;
+            text-decoration: underline;
+        }
+        
+        .social-links {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+        }
+
+        .social-links a {
+            font-size: 1rem;
+            font-weight: 600;
+            color: var(--text-secondary);
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+        }
+
+        .social-links a:hover {
+            color: var(--accent-primary);
+            transform: translateY(-3px);
+        }
+        
+        .footer-bottom {
+            background: #000;
+            border-top: 1px solid var(--bg-dark-tertiary);
+            padding: 20px 0;
+            text-align: center;
+        }
+        
+        .footer-bottom p {
+            margin: 0;
+            color: var(--text-secondary);
+            font-size: 0.85rem;
+        }
+        
+        /* --- 8. Utilities (Animations) --- */
+        .animate-on-scroll {
+            opacity: 0;
+            transform: translateY(40px);
+            transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+            transition-delay: var(--delay, 0s);
+        }
+
+        .animate-on-scroll.is-visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* --- 9. Responsive Design --- */
+        
+        @media (max-width: 480px) {
+            #page-header h1 {
+                font-size: 2.2rem;
+            }
+            #page-header p {
+                font-size: 1rem;
+            }
+        }
+
+        /* Tablet & Up */
+        @media (min-width: 768px) {
+            h2 {
+                font-size: 2.8rem;
+            }
+            #page-header h1 {
+                font-size: 4rem;
+            }
+            section {
+                padding: 100px 0;
+            }
+            
+            #page-header {
+                padding-top: 160px;
+                padding-bottom: 100px;
+                text-align: left;
+            }
+        
+            /* Desktop Nav */
+            .nav-links {
+                position: static;
+                height: auto;
+                width: auto;
+                background: transparent;
+                flex-direction: row;
+                transform: translateX(0);
+                box-shadow: none;
+            }
+            .nav-links li {
+                margin: 0 0 0 30px;
+            }
+            .hamburger {
+                display: none;
+            }
+            
+            /* Revert carousels back to grids */
+            .beat-grid {
+                display: grid;
+                grid-template-columns: repeat(2, 1fr);
+            }
+            
+            /* Footer Grid */
+            .footer-container {
+                grid-template-columns: repeat(3, 1fr);
+                text-align: left;
+                gap: 30px;
+            }
+            .footer-about p {
+                margin: 0;
+            }
+            .social-links {
+                justify-content: flex-start;
+            }
+            
+            .animate-on-scroll {
+                transition-delay: var(--delay, 0s);
+            }
+        }
+        
+        /* Desktop */
+        @media (min-width: 1024px) {
+            .beat-grid {
+                grid-template-columns: repeat(3, 1fr);
+            }
+        }
+
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="container header-container">
+            <a href="index.html" class="logo">BHX<span>BEATS</span></a>
+            <nav>
+                <ul class="nav-links">
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="all-beats.html" class="active">Beats</a></li>
+                    <li><a href="index.html#genres">Genres</a></li>
+                    <li><a href="index.html#licensing">Licensing</a></li>
+                    <li><a href="index.html#about-us">About</a></li>
+                </ul>
+            </nav>
+            <div class="hamburger">
+                <div class="line line1"></div>
+                <div class="line line2"></div>
+                <div class="line line3"></div>
+            </div>
+        </div>
+    </header>
+
+    <main>
+        
+        <section id="all-beats">
+            <div class="container">
+                
+                <div class="filters-container animate-on-scroll">
+                    <input type="text" class="search-bar" placeholder="Search by name, tag, or BPM...">
+                    <select class="filter-select">
+                        <option value="popular">Sort by: Popular</option>
+                        <option value="newest">Sort by: Newest</option>
+                        <option value="price-asc">Sort by: Price (Low-High)</option>
+                        <option value="price-desc">Sort by: Price (High-Low)</option>
+                    </select>
+                    <select class="filter-select">
+                        <option value="">All Genres</option>
+                        <option value="trap">Trap</option>
+                        <option value="lo-fi">Lo-Fi</option>
+                        <option value="rnb">R&B</option>
+                        <option value="orchestral">Orchestral</option>
+                        <option value="drill">Drill</option>
+                    </select>
+                </div>
+
+                <div class="beat-grid">
+                    
+                    <div class="beat-card animate-on-scroll">
+                        <div class="art" data-beat="beat1">
+                            <img src="https://images.unsplash.com/photo-1514320291840-2e0a9bf2a9ae?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1740&q=80" alt="Beat Art 1">
+                            <div class="art-overlay">
+                                <svg class="play-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path class="play-path" d="M8 5v14l11-7z"/><path class="pause-path" d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/></svg>
+                            </div>
+                        </div>
+                        <div class="info">
+                            <h3>Midnight Run</h3>
+                            <div class="tags">
+                                <span>Trap</span>
+                                <span>145 BPM</span>
+                                <span>C# Min</span>
+                            </div>
+                            <audio class="player" id="beat1" src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" preload="none"></audio>
+                            <div class="actions">
+                                <span class="price">$29.99</span>
+                                <a href="#" class="btn btn-secondary">Add to Cart</a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="beat-card animate-on-scroll" style="--delay: 100ms;">
+                        <div class="art" data-beat="beat2">
+                            <img src="https://images.unsplash.com/photo-1494232410401-ad00d5433cfa?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1740&q=80" alt="Beat Art 2">
+                            <div class="art-overlay">
+                                <svg class="play-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path class="play-path" d="M8 5v14l11-7z"/><path class="pause-path" d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/></svg>
+                            </div>
+                        </div>
+                        <div class="info">
+                            <h3>Coffee Shop</h3>
+                            <div class="tags">
+                                <span>Lo-Fi</span>
+                                <span>80 BPM</span>
+                                <span>F Maj</span>
+                            </div>
+                            <audio class="player" id="beat2" src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-2.mp3" preload="none"></audio>
+                            <div class="actions">
+                                <span class="price">$29.99</span>
+                                <a href="#" class="btn btn-secondary">Add to Cart</a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="beat-card animate-on-scroll" style="--delay: 200ms;">
+                        <div class="art" data-beat="beat3">
+                            <img src="https://images.unsplash.com/photo-1507838153414-b4b713384a76?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1740&q=80" alt="Beat Art 3">
+                            <div class="art-overlay">
+                                <svg class="play-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path class="play-path" d="M8 5v14l11-7z"/><path class="pause-path" d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/></svg>
+                            </div>
+                        </div>
+                        <div class="info">
+                            <h3>Lost Kings</h3>
+                            <div class="tags">
+                                <span>Orchestral</span>
+                                <span>120 BPM</span>
+                            </div>
+                            <audio class="player" id="beat3" src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-3.mp3" preload="none"></audio>
+                            <div class="actions">
+                                <span class="price">$49.99</span>
+                                <a href="#" class="btn btn-secondary">Add to Cart</a>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="beat-card animate-on-scroll">
+                        <div class="art" data-beat="beat4">
+                            <img src="https://images.unsplash.com/photo-1516223725307-6f76b9ec8742?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1740&q=80" alt="Beat Art 4">
+                            <div class="art-overlay">
+                                <svg class="play-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path class="play-path" d="M8 5v14l11-7z"/><path class="pause-path" d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/></svg>
+                            </div>
+                        </div>
+                        <div class="info">
+                            <h3>City Lights</h3>
+                            <div class="tags">
+                                <span>R&B</span>
+                                <span>95 BPM</span>
+                            </div>
+                            <audio class="player" id="beat4" src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-4.mp3" preload="none"></audio>
+                            <div class="actions">
+                                <span class="price">$29.99</span>
+                                <a href="#" class="btn btn-secondary">Add to Cart</a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="beat-card animate-on-scroll">
+                        <div class="art" data-beat="beat5">
+                            <img src="https://images.unsplash.com/photo-1593693397645-c6d69151d085?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1740&q=80" alt="Beat Art 5">
+                            <div class="art-overlay">
+                                <svg class="play-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path class="play-path" d="M8 5v14l11-7z"/><path class="pause-path" d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/></svg>
+                            </div>
+                        </div>
+                        <div class="info">
+                            <h3>Shutdown</h3>
+                            <div class="tags">
+                                <span>Drill</span>
+                                <span>140 BPM</span>
+                            </div>
+                            <audio class="player" id="beat5" src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-5.mp3" preload="none"></audio>
+                            <div class="actions">
+                                <span class="price">$29.99</span>
+                                <a href="#" class="btn btn-secondary">Add to Cart</a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="beat-card animate-on-scroll">
+                        <div class="art" data-beat="beat6">
+                            <img src="https://images.unsplash.com/photo-1506157786151-b8491531f063?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1740&q=80" alt="Beat Art 6">
+                            <div class="art-overlay">
+                                <svg class="play-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path class="play-path" d="M8 5v14l11-7z"/><path class="pause-path" d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/></svg>
+                            </div>
+                        </div>
+                        <div class="info">
+                            <h3>Summer Haze</h3>
+                            <div class="tags">
+                                <span>Pop</span>
+                                <span>120 BPM</span>
+                            </div>
+                            <audio class="player" id="beat6" src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-6.mp3" preload="none"></audio>
+                            <div class="actions">
+                                <span class="price">$29.99</span>
+                                <a href="#" class="btn btn-secondary">Add to Cart</a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="beat-card animate-on-scroll">
+                        <div class="art" data-beat="beat7">
+                            <img src="https://images.unsplash.com/photo-1470225620780-dba8ba36b745?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1740&q=80" alt="Beat Art 7">
+                            <div class="art-overlay">
+                                <svg class="play-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path class="play-path" d="M8 5v14l11-7z"/><path class="pause-path" d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/></svg>
+                            </div>
+                        </div>
+                        <div class="info">
+                            <h3>Afterparty</h3>
+                            <div class="tags">
+                                <span>EDM</span>
+                                <span>128 BPM</span>
+                            </div>
+                            <audio class="player" id="beat7" src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-7.mp3" preload="none"></audio>
+                            <div class="actions">
+                                <span class="price">$49.99</span>
+                                <a href="#" class="btn btn-secondary">Add to Cart</a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="beat-card animate-on-scroll">
+                        <div class="art" data-beat="beat8">
+                            <img src="https://images.unsplash.com/photo-1484712401471-05c72158c0eb?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1740&q=80" alt="Beat Art 8">
+                            <div class="art-overlay">
+                                <svg class="play-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path class="play-path" d="M8 5v14l11-7z"/><path class="pause-path" d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/></svg>
+                            </div>
+                        </div>
+                        <div class="info">
+                            <h3>Rainy Day</h3>
+                            <div class="tags">
+                                <span>Lo-Fi</span>
+                                <span>75 BPM</span>
+                            </div>
+                            <audio class="player" id="beat8" src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-8.mp3" preload="none"></audio>
+                            <div class="actions">
+                                <span class="price">$29.99</span>
+                                <a href="#" class="btn btn-secondary">Add to Cart</a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="beat-card animate-on-scroll">
+                        <div class="art" data-beat="beat9">
+                            <img src="https://images.unsplash.com/photo-1542223616-740d5dff7f56?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1740&q=80" alt="Beat Art 9">
+                            <div class="art-overlay">
+                                <svg class="play-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path class="play-path" d="M8 5v14l11-7z"/><path class="pause-path" d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/></svg>
+                            </div>
+                        </div>
+                        <div class="info">
+                            <h3>Velvet</h3>
+                            <div class="tags">
+                                <span>R&B</span>
+                                <span>90 BPM</span>
+                                <span>A Min</span>
+                            </div>
+                            <audio class="player" id="beat9" src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-9.mp3" preload="none"></audio>
+                            <div class="actions">
+                                <span class="price">$29.99</span>
+                                <a href="#" class="btn btn-secondary">Add to Cart</a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="beat-card animate-on-scroll">
+                        <div class="art" data-beat="beat10">
+                            <img src="https://images.unsplash.com/photo-1604164387532-a337189d231a?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1740&q=80" alt="Beat Art 10">
+                            <div class="art-overlay">
+                                <svg class="play-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path class="play-path" d="M8 5v14l11-7z"/><path class="pause-path" d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/></svg>
+                            </div>
+                        </div>
+                        <div class="info">
+                            <h3>Grimey</h3>
+                            <div class="tags">
+                                <span>Drill</span>
+                                <span>142 BPM</span>
+                            </div>
+                            <audio class="player" id="beat10" src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-10.mp3" preload="none"></audio>
+                            <div class="actions">
+                                <span class="price">$29.99</span>
+                                <a href="#" class="btn btn-secondary">Add to Cart</a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="beat-card animate-on-scroll">
+                        <div class="art" data-beat="beat11">
+                            <img src="https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1740&q=80" alt="Beat Art 11">
+                            <div class="art-overlay">
+                                <svg class="play-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path class="play-path" d="M8 5v14l11-7z"/><path class="pause-path" d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/></svg>
+                            </div>
+                        </div>
+                        <div class="info">
+                            <h3>Golden</h3>
+                            <div class="tags">
+                                <span>Orchestral</span>
+                                <span>100 BPM</span>
+                            </div>
+                            <audio class="player" id="beat11" src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" preload="none"></audio>
+                            <div class="actions">
+                                <span class="price">$49.99</span>
+                                <a href="#" class="btn btn-secondary">Add to Cart</a>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="beat-card animate-on-scroll">
+                        <div class="art" data-beat="beat12">
+                            <img src="httpshttps://images.unsplash.com/photo-1518609878373-06d740f60d8b?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1740&q=80" alt="Beat Art 12">
+                            <div class="art-overlay">
+                                <svg class="play-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path class="play-path" d="M8 5v14l11-7z"/><path class="pause-path" d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/></svg>
+                            </div>
+                        </div>
+                        <div class="info">
+                            <h3>Focus</h3>
+                            <div class="tags">
+                                <span>Lo-Fi</span>
+                                <span>80 BPM</span>
+                            </div>
+                            <audio class="player" id="beat12" src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-2.mp3" preload="none"></audio>
+                            <div class="actions">
+                                <span class="price">$29.99</span>
+                                <a href="#" class="btn btn-secondary">Add to Cart</a>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <footer>
+        <div class="footer-container">
+            <div class="footer-about">
+                <a href="index.html" class="logo">BHX<span>BEATS</span></a>
+                <p>Crafting the next generation of industry-leading beats for artists worldwide.</p>
+            </div>
+            
+            <div class="footer-links">
+                <h4 class="footer-heading">Quick Links</h4>
+                <ul>
+                    <li><a href="beats.html">Beats</a></li>
+                    <li><a href="index.html#genres">Genres</a></li>
+                    <li><a href="index.html#licensing">Licensing</a></li>
+                    <li><a href="index.html#about-us">About Us</a></li>
+                </ul>
+            </div>
+            
+            <div class="footer-social">
+                <h4 class="footer-heading">Follow Us</h4>
+                <div class="social-links">
+                    <a href="#">Instagram</a>
+                    <a href="#">YouTube</a>
+                    <a href="#">SoundCloud</a>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2025 BHXBEATS. All Rights Reserved.</p>
+        </div>
+    </footer>
+
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+
+            // --- 1. Mobile Navigation Toggle ---
+            const hamburger = document.querySelector('.hamburger');
+            const navLinks = document.querySelector('.nav-links');
+            const links = document.querySelectorAll('.nav-links li');
+
+            hamburger.addEventListener('click', () => {
+                navLinks.classList.toggle('nav-active');
+                hamburger.classList.toggle('toggle');
+            });
+
+            // Close nav when a link is clicked
+            links.forEach(link => {
+                link.addEventListener('click', () => {
+                    if (navLinks.classList.contains('nav-active')) {
+                        navLinks.classList.remove('nav-active');
+                        hamburger.classList.remove('toggle');
+                    }
+                });
+            });
+
+            // --- 2. Header Scroll Effect ---
+            const header = document.querySelector('header');
+            window.addEventListener('scroll', () => {
+                if (window.scrollY > 50) {
+                    header.classList.add('header-scrolled');
+                } else {
+                    header.classList.remove('header-scrolled');
+                }
+            });
+
+
+            // --- 3. On-Scroll Fade-In Animations ---
+            const scrollElements = document.querySelectorAll('.animate-on-scroll');
+
+            if (scrollElements.length > 0) {
+                const observer = new IntersectionObserver((entries) => {
+                    entries.forEach(entry => {
+                        if (entry.isIntersecting) {
+                            entry.target.classList.add('is-visible');
+                            observer.unobserve(entry.target);
+                        }
+                    });
+                }, {
+                    threshold: 0.1 // 10% of the element must be visible
+                });
+
+                scrollElements.forEach(el => {
+                    observer.observe(el);
+                });
+            }
+
+
+            // --- 4. Interactive Beat Player Logic ---
+            // This script works perfectly for all beat cards on the page
+            const beatCards = document.querySelectorAll('.beat-card');
+            let currentlyPlaying = null; 
+
+            beatCards.forEach(card => {
+                const art = card.querySelector('.art');
+                const beatId = art.dataset.beat;
+                const audio = card.querySelector(`#${beatId}`);
+                const playIcon = card.querySelector('.play-icon');
+                const playPath = card.querySelector('.play-path');
+                const pausePath = card.querySelector('.pause-path');
+                
+                if (!audio) return;
+
+                function showPlay() {
+                    playPath.style.display = 'block';
+                    pausePath.style.display = 'none';
+                    card.classList.remove('is-playing');
+                }
+                
+                function showPause() {
+                    playPath.style.display = 'none';
+                    pausePath.style.display = 'block';
+                    card.classList.add('is-playing');
+                }
+
+                art.addEventListener('click', () => {
+                    if (audio.paused) {
+                        // Pause other playing audio first
+                        if (currentlyPlaying && currentlyPlaying !== audio) {
+                            currentlyPlaying.pause();
+                        }
+                        audio.play();
+                    } else {
+                        audio.pause();
+                    }
+                });
+                
+                audio.addEventListener('ended', () => {
+                    showPlay();
+                    currentlyPlaying = null;
+                });
+                
+                audio.addEventListener('pause', () => {
+                    showPlay();
+                    if (currentlyPlaying === audio) {
+                        currentlyPlaying = null;
+                    }
+                });
+                
+                audio.addEventListener('play', () => {
+                    // This ensures only one play/pause icon is active
+                    beatCards.forEach(otherCard => {
+                        if (otherCard !== card) {
+                            otherCard.querySelector('.play-path').style.display = 'block';
+                            otherCard.querySelector('.pause-path').style.display = 'none';
+                            otherCard.classList.remove('is-playing');
+                        }
+                    });
+                    showPause();
+                    currentlyPlaying = audio;
+                });
+            });
+        });
+    </script>
+
+</body>
+</html>
