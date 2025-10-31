@@ -1386,7 +1386,7 @@
                                 <span>145 BPM</span>
                                 <span>C# Min</span>
                             </div>
-                            <audio class="player" id="beat1" src="nSjXnUcNkX8" preload="none"></audio>
+                            <audio class="player" id="beat1" src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" preload="none"></audio>
                             <div class="actions">
                                 <span class="price">$1.99</span>
                                 <a href="cart.html" class="btn btn-secondary">Add to Cart</a>
@@ -1408,7 +1408,7 @@
                                 <span>80 BPM</span>
                                 <span>F Maj</span>
                             </div>
-                            <audio class="player" id="beat2" src="jfKfPfyBkdg" preload="none"></audio>
+                            <audio class="player" id="beat2" src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-2.mp3" preload="none"></audio>
                             <div class="actions">
                                 <span class="price">$1.99</span>
                                 <a href="cart.html" class="btn btn-secondary">Add to Cart</a>
@@ -1429,7 +1429,7 @@
                                 <span>Orchestral</span>
                                 <span>120 BPM</span>
                             </div>
-                            <audio class="player" id="beat3" src="g4k3t8rP1dM" preload="none"></audio>
+                            <audio class="player" id="beat3" src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-3.mp3" preload="none"></audio>
                             <div class="actions">
                                 <span class="price">$4.99</span>
                                 <a href="cart.html" class="btn btn-secondary">Add to Cart</a>
@@ -1450,7 +1450,7 @@
                                 <span>R&B</span>
                                 <span>95 BPM</span>
                             </div>
-                            <audio class="player" id="beat4" src="O6B8_8R9vX4" preload="none"></audio>
+                            <audio class="player" id="beat4" src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-4.mp3" preload="none"></audio>
                             <div class="actions">
                                 <span class="price">$4.99</span>
                                 <a href="cart.html" class="btn btn-secondary">Add to Cart</a>
@@ -1659,57 +1659,36 @@
             }
 
 
-            // --- 4. Interactive Beat Player Logic (UPDATED to support YouTube ID playback) ---
+            // --- 4. Interactive Beat Player Logic (SIMPLIFIED for direct audio source) ---
             const beatCards = document.querySelectorAll('.beat-card');
-            let currentlyPlaying = null; 
-
-            // Create a dedicated audio object to handle playback
-            let youtubeAudioPlayer = new Audio();
-            youtubeAudioPlayer.crossOrigin = "anonymous";
-            
-            // Function to get the real audio source URL (e.g., a short proxy for the YouTube audio stream)
-            // NOTE: In a real production app, this would require a backend service or API to convert the YouTube ID to a streamable audio URL. 
-            // For this demonstration, we'll use a placeholder/generic MP3.
-            function getBeatAudioSource(youtubeId) {
-                // In a real application, you'd use the youtubeId to fetch a direct audio link.
-                // For demonstration, we'll map the IDs to placeholders:
-                if (youtubeId === 'nSjXnUcNkX8') return 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3';
-                if (youtubeId === 'jfKfPfyBkdg') return 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-2.mp3';
-                if (youtubeId === 'g4k3t8rP1dM') return 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-3.mp3';
-                if (youtubeId === 'O6B8_8R9vX4') return 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-4.mp3';
-                return 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3'; // Fallback
-            }
+            let currentlyPlayingAudio = null; // Store the currently playing audio element
+            let currentlyPlayingCard = null;  // Store the currently playing card element
 
             beatCards.forEach(card => {
                 const art = card.querySelector('.art');
-                const beatId = art.dataset.beat;
-                const audioElement = card.querySelector(`#${beatId}`); // This element now holds the YouTube ID in its 'src'
-                const youtubeId = audioElement.getAttribute('src');
-                const playIcon = card.querySelector('.play-icon');
-                const playPath = card.querySelector('.play-path');
-                const pausePath = card.querySelector('.pause-path');
+                const audioElement = card.querySelector('.player'); 
                 
-                if (!youtubeId) return;
+                if (!audioElement || !audioElement.src) return;
 
-                function showPlay() {
-                    playPath.style.display = 'block';
-                    pausePath.style.display = 'none';
-                    card.classList.remove('is-playing');
+                function showPlay(targetCard) {
+                    targetCard.classList.remove('is-playing');
+                    const playPath = targetCard.querySelector('.play-path');
+                    const pausePath = targetCard.querySelector('.pause-path');
+                    if (playPath) playPath.style.display = 'block';
+                    if (pausePath) pausePath.style.display = 'none';
                 }
                 
-                function showPause() {
-                    playPath.style.display = 'none';
-                    pausePath.style.display = 'block';
-                    card.classList.add('is-playing');
+                function showPause(targetCard) {
+                    targetCard.classList.add('is-playing');
+                    const playPath = targetCard.querySelector('.play-path');
+                    const pausePath = targetCard.querySelector('.pause-path');
+                    if (playPath) playPath.style.display = 'none';
+                    if (pausePath) pausePath.style.display = 'block';
                 }
                 
                 function resetAllCards() {
                     beatCards.forEach(otherCard => {
-                        otherCard.classList.remove('is-playing');
-                        const otherPlayPath = otherCard.querySelector('.play-path');
-                        const otherPausePath = otherCard.querySelector('.pause-path');
-                        if (otherPlayPath) otherPlayPath.style.display = 'block';
-                        if (otherPausePath) otherPausePath.style.display = 'none';
+                        showPlay(otherCard);
                     });
                 }
 
@@ -1718,55 +1697,46 @@
                         const isThisCardPlaying = card.classList.contains('is-playing');
                         
                         if (isThisCardPlaying) {
-                            // Pause the currently playing song
-                            youtubeAudioPlayer.pause();
-                            resetAllCards();
-                            currentlyPlaying = null;
+                            // Pause this beat
+                            audioElement.pause();
+                            showPlay(card);
+                            currentlyPlayingAudio = null;
+                            currentlyPlayingCard = null;
                         } else {
-                            // Stop any currently playing song first
-                            if (currentlyPlaying) {
-                                currentlyPlaying.pause();
-                                resetAllCards(); 
+                            // Stop any currently playing beat first
+                            if (currentlyPlayingAudio) {
+                                currentlyPlayingAudio.pause();
+                                showPlay(currentlyPlayingCard); // Reset the old card's UI
                             }
                             
-                            // Set the source and play the new beat
-                            youtubeAudioPlayer.src = getBeatAudioSource(youtubeId);
-                            youtubeAudioPlayer.play().catch(e => console.error("Playback failed:", e));
+                            // Play the new beat
+                            audioElement.currentTime = 0; // Reset to start
+                            audioElement.play().catch(e => console.error("Playback failed:", e));
                             
-                            // Update UI for the new card
-                            showPause();
-                            currentlyPlaying = youtubeAudioPlayer;
-                            
-                            // Store a reference to the card playing this audio (for UI sync)
-                            youtubeAudioPlayer.playingCard = card;
+                            // Update UI and trackers
+                            showPause(card);
+                            currentlyPlayingAudio = audioElement;
+                            currentlyPlayingCard = card;
                         }
                     });
                 }
                 
-                // Add listeners to the global player to sync UI
-                youtubeAudioPlayer.addEventListener('ended', () => {
-                    if (youtubeAudioPlayer.playingCard === card) {
-                        showPlay();
-                        youtubeAudioPlayer.playingCard = null;
-                        currentlyPlaying = null;
-                    }
+                // Add listeners for audio events
+                audioElement.addEventListener('ended', () => {
+                    showPlay(card);
+                    currentlyPlayingAudio = null;
+                    currentlyPlayingCard = null;
                 });
                 
-                youtubeAudioPlayer.addEventListener('pause', () => {
-                    if (youtubeAudioPlayer.playingCard === card) {
-                        showPlay();
-                        youtubeAudioPlayer.playingCard = null;
-                        currentlyPlaying = null;
-                    }
-                });
-                
-                youtubeAudioPlayer.addEventListener('play', () => {
-                    if (youtubeAudioPlayer.playingCard === card) {
-                        resetAllCards(); // Ensure all others are reset
-                        showPause(); // Ensure this one is showing pause
+                audioElement.addEventListener('pause', () => {
+                    if (audioElement === currentlyPlayingAudio) {
+                        showPlay(card);
+                        currentlyPlayingAudio = null;
+                        currentlyPlayingCard = null;
                     }
                 });
             });
+
 
             // --- 5. Cart Functionality ---
             
