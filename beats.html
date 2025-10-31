@@ -36,6 +36,7 @@
             color: var(--text-primary);
             line-height: 1.7;
             overflow-x: hidden;
+            padding-bottom: 0; /* Will be set via media query for the bottom bar */
         }
 
         h1, h2, h3, h4, h5, h6 {
@@ -586,12 +587,211 @@
 
         /* --- 9. Responsive Design --- */
         
-        @media (max-width: 480px) {
-            #page-header h1 {
-                font-size: 2.2rem;
+        @media (max-width: 767px) {
+            
+            /* GLOBAL MOBILE BODY ADJUSTMENT */
+            body {
+                padding-bottom: 65px; /* Space for the bottom tab bar */
             }
-            #page-header p {
-                font-size: 1rem;
+
+            /* --- Header/Nav Override (App-style) --- */
+            header {
+                position: static; /* No longer fixed or sticky */
+                padding: 15px 0;
+                background-color: var(--bg-dark-primary);
+                border-bottom: none;
+                box-shadow: none;
+            }
+            
+            .header-container {
+                justify-content: flex-start; /* Keep logo to the left */
+            }
+            
+            .logo {
+                flex-grow: 1; /* Push others to the right */
+            }
+            
+            /* Hide the original nav elements */
+            .nav-links, .hamburger, .nav-controls .cart-icon-link {
+                display: none !important;
+            }
+            
+            /* Hide page header section - title should go into the main content or header if needed */
+            #page-header {
+                display: none; 
+            }
+            
+            /* Adjust the main section padding now that the header is gone */
+            #all-beats {
+                padding-top: 30px;
+            }
+
+            /* --- Filters (Mobile Stack) --- */
+            .filters-container {
+                flex-direction: column;
+                gap: 0.75rem;
+                margin-bottom: 2rem;
+            }
+            
+            .search-bar, .filter-select {
+                width: 100%;
+                border-radius: 8px; /* Square off buttons for app look */
+                padding: 12px 15px;
+                font-size: 0.9rem;
+            }
+            
+            .filter-select {
+                background-position: right 15px center;
+                padding-right: 40px;
+            }
+            
+            /* --- NEW: Bottom Tab Bar (Copied from index.html) --- */
+            .bottom-tab-bar {
+                display: flex;
+                position: fixed;
+                bottom: 0;
+                left: 0;
+                width: 100%;
+                background: var(--bg-dark-secondary);
+                box-shadow: 0 -5px 20px rgba(0,0,0,0.5);
+                height: 65px;
+                z-index: 1000;
+                border-top: 1px solid var(--bg-dark-tertiary);
+            }
+            
+            .tab-item {
+                flex: 1;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                justify-content: center;
+                color: var(--text-secondary);
+                text-decoration: none;
+                font-size: 0.7rem;
+                font-weight: 600;
+                transition: color 0.3s ease;
+                position: relative; /* Essential for cart-count positioning */
+            }
+            
+            .tab-item.active {
+                color: var(--accent-primary);
+            }
+            
+            .tab-item svg {
+                width: 24px;
+                height: 24px;
+                fill: currentColor;
+                margin-bottom: 3px;
+            }
+            
+           /* --- Fix: Adjusted cart-count position for mobile tab bar (CORRECTED) --- */
+            .tab-item .cart-count {
+                position: absolute;
+                top: 5px; /* Keep it near the top */
+                right: 50%; /* Center relative to the tab item */
+                transform: translateX(50%); /* Shift right by half its width for centering */
+                /* CORRECTED: Adjusting this margin to place it correctly over the Cart icon */
+                margin-right: -10px; 
+                background: var(--accent-primary);
+                color: #fff;
+                width: 20px;
+                height: 20px;
+                border-radius: 50%;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                font-size: 0.75rem;
+                font-weight: 700;
+                line-height: 1;
+                border: 2px solid var(--bg-dark-secondary);
+            }
+            /* --- END FIX --- */
+            
+            /* --- Beat Grid (Mobile List View) --- */
+            .beat-grid {
+                grid-template-columns: 1fr;
+                gap: 0.75rem; /* Tighter spacing for list view */
+            }
+            
+            .beat-card {
+                /* New list item layout */
+                display: grid;
+                grid-template-columns: 80px 1fr; /* Image and Info in a row */
+                gap: 15px;
+                border-radius: 8px;
+                padding: 10px;
+                background: var(--bg-dark-secondary); /* Use secondary background for list items */
+            }
+            
+            .beat-card .art {
+                border-radius: 4px;
+                aspect-ratio: 1 / 1;
+                overflow: hidden;
+            }
+            
+            .beat-card .info {
+                padding: 0;
+                display: flex;
+                flex-direction: column;
+                justify-content: space-between;
+            }
+            
+            .beat-card h3 {
+                font-size: 1.1rem;
+                margin-bottom: 0;
+                white-space: nowrap;
+                overflow: hidden;
+                text-overflow: ellipsis;
+            }
+            
+            .beat-card .tags {
+                margin-bottom: 5px;
+                white-space: nowrap;
+                overflow: hidden;
+            }
+            
+            .beat-card .tags span {
+                padding: 2px 7px;
+                font-size: 0.65rem;
+            }
+            
+            .beat-card .actions {
+                margin-top: 0;
+                gap: 10px;
+                align-items: flex-end;
+            }
+            
+            .beat-card .price {
+                font-size: 1.2rem;
+            }
+            
+            .beat-card .btn-secondary {
+                padding: 8px 15px;
+                font-size: 0.75rem;
+                font-weight: 700;
+                letter-spacing: 0;
+                border-width: 1px;
+            }
+
+            /* Hide desktop hover effects on touch devices */
+            .beat-card:hover {
+                transform: none;
+                box-shadow: none;
+            }
+            
+            /* --- Footer Cleanup --- */
+            footer {
+                padding-bottom: 80px; /* Space above tab bar for bottom content */
+            }
+            
+            .footer-links, .footer-social {
+                display: none; /* Hide detailed links in app view */
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .beat-card {
+                grid-template-columns: 70px 1fr; /* Smaller image on tiny screens */
             }
         }
 
@@ -611,6 +811,7 @@
                 padding-top: 160px;
                 padding-bottom: 100px;
                 text-align: left;
+                display: block; /* Show header on desktop */
             }
         
             /* Desktop Nav */
@@ -629,11 +830,27 @@
             .hamburger {
                 display: none;
             }
+            .nav-links { display: flex; } /* Ensure desktop nav is visible */
+            .nav-controls .cart-icon-link { display: block; } /* Show cart icon */
             
-            /* Revert carousels back to grids */
+            /* Revert beats to a grid layout */
             .beat-grid {
                 display: grid;
                 grid-template-columns: repeat(2, 1fr);
+                gap: 1.5rem;
+            }
+            .beat-card {
+                display: block; /* Revert beat card layout */
+                padding: 0;
+                background: var(--bg-dark-primary); 
+            }
+            .beat-card .info {
+                padding: 20px;
+            }
+            
+            /* Filters horizontal layout */
+            .filters-container {
+                flex-direction: row;
             }
             
             /* Footer Grid */
@@ -651,6 +868,20 @@
             
             .animate-on-scroll {
                 transition-delay: var(--delay, 0s);
+            }
+            
+            .bottom-tab-bar {
+                display: none; /* Hide bottom bar on desktop */
+            }
+            body {
+                padding-bottom: 0;
+            }
+            header.header-scrolled {
+                position: fixed;
+            }
+            
+            .footer-links, .footer-social {
+                display: block;
             }
         }
         
@@ -692,6 +923,13 @@
     </header>
 
     <main>
+        
+        <section id="page-header">
+            <div class="container">
+                <h1 class="text-gradient">ALL BEATS</h1>
+                <p>Browse our entire catalog of ready-to-use instrumentals.</p>
+            </div>
+        </section>
         
         <section id="all-beats">
             <div class="container">
@@ -1008,38 +1246,66 @@
         </div>
     </footer>
 
+    <div class="bottom-tab-bar">
+        <a href="index.html" class="tab-item">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8h5z"/></svg>
+            Home
+        </a>
+        <a href="beats.html" class="tab-item active">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 3v10.55c-.59-.34-1.27-.55-2-.55-2.21 0-4 1.79-4 4s1.79 4 4 4 4-1.79 4-4V7h4V3h-6z"/></svg>
+            Beats
+        </a>
+        <a href="index.html#genres" class="tab-item">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M10 18c0-.34.02-.67.04-1H4V5h16v1.96c.33.02.66.04 1 .04V4c0-1.11-.89-2-2-2H4c-1.11 0-2 .89-2 2v14c0 1.11.89 2 2 2h7c-.01-.34-.01-.67-.01-1H4v-1h6zM15.5 18c0 2.49 2.01 4.5 4.5 4.5s4.5-2.01 4.5-4.5-2.01-4.5-4.5-4.5-4.5 2.01-4.5 4.5zm5.5-2h-2v-2h-2v2h-2v2h2v2h2v-2h2v-2zM18 9l-4-4-4 4h2v2h4V9h2zm-2.5-3.5L18 8h-4l1.5-1.5z"/></svg>
+            Genre
+        </a>
+        <a href="cart.html" class="tab-item">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M7 18c-1.1 0-1.99.9-1.99 2S5.9 22 7 22s2-.9 2-2-.9-2-2-2zM1 2v2h2l3.6 7.59-1.35 2.45c-.16.28-.25.61-.25.96 0 1.1.9 2 2 2h12v-2H7.42c-.14 0-.25-.11-.25-.25l.03-.12.9-1.63h7.45c.75 0 1.41-.41 1.75-1.03l3.58-6.49c.08-.14.12-.31.12-.48 0-.55-.45-1-1-1H5.21l-.94-2H1zm16 16c-1.1 0-1.99.9-1.99 2s.89 2 1.99 2 2-.9 2-2-.9-2-2-2z"/></svg>
+            Cart
+            <span class="cart-count">0</span>
+        </a>
+    </div>
+
 
     <script>
         document.addEventListener('DOMContentLoaded', function() {
 
-            // --- 1. Mobile Navigation Toggle ---
+            // --- 1. Mobile Navigation Toggle (Disabled for app view) ---
             const hamburger = document.querySelector('.hamburger');
             const navLinks = document.querySelector('.nav-links');
             const links = document.querySelectorAll('.nav-links li');
+            const isMobile = window.matchMedia('(max-width: 767px)').matches;
 
-            hamburger.addEventListener('click', () => {
-                navLinks.classList.toggle('nav-active');
-                hamburger.classList.toggle('toggle');
-            });
+            if (!isMobile) {
+                hamburger.addEventListener('click', () => {
+                    navLinks.classList.toggle('nav-active');
+                    hamburger.classList.toggle('toggle');
+                });
 
-            links.forEach(link => {
-                link.addEventListener('click', () => {
-                    if (navLinks.classList.contains('nav-active')) {
-                        navLinks.classList.remove('nav-active');
-                        hamburger.classList.remove('toggle');
+                links.forEach(link => {
+                    link.addEventListener('click', () => {
+                        if (navLinks.classList.contains('nav-active')) {
+                            navLinks.classList.remove('nav-active');
+                            hamburger.classList.remove('toggle');
+                        }
+                    });
+                });
+            }
+
+
+            // --- 2. Header Scroll Effect (Disabled for mobile app view) ---
+            const header = document.querySelector('header');
+            if (!isMobile) {
+                window.addEventListener('scroll', () => {
+                    if (window.scrollY > 50) {
+                        header.classList.add('header-scrolled');
+                    } else {
+                        header.classList.remove('header-scrolled');
                     }
                 });
-            });
-
-            // --- 2. Header Scroll Effect ---
-            const header = document.querySelector('header');
-            window.addEventListener('scroll', () => {
-                if (window.scrollY > 50) {
-                    header.classList.add('header-scrolled');
-                } else {
-                    header.classList.remove('header-scrolled');
-                }
-            });
+            } else {
+                header.classList.remove('header-scrolled');
+            }
 
 
             // --- 3. On-Scroll Fade-In Animations ---
@@ -1063,81 +1329,99 @@
             }
 
 
-            // --- 4. Interactive Beat Player Logic ---
+            // --- 4. Interactive Beat Player Logic (Uses a single Audio element to prevent multiple playback issues) ---
             const beatCards = document.querySelectorAll('.beat-card');
-            let currentlyPlaying = null; 
+            let audioPlayer = new Audio();
+            let currentlyPlayingCard = null;
+
+            function showPlayState(card) {
+                card.querySelector('.play-path').style.display = 'block';
+                card.querySelector('.pause-path').style.display = 'none';
+                card.classList.remove('is-playing');
+            }
+
+            function showPauseState(card) {
+                card.querySelector('.play-path').style.display = 'none';
+                card.querySelector('.pause-path').style.display = 'block';
+                card.classList.add('is-playing');
+            }
+            
+            function resetAllCards() {
+                beatCards.forEach(otherCard => {
+                    showPlayState(otherCard);
+                });
+            }
 
             beatCards.forEach(card => {
                 const art = card.querySelector('.art');
-                const beatId = art.dataset.beat;
-                const audio = card.querySelector(`#${beatId}`);
-                const playIcon = card.querySelector('.play-icon');
-                const playPath = card.querySelector('.play-path');
-                const pausePath = card.querySelector('.pause-path');
+                const audioSource = card.querySelector('.player').src;
                 
-                if (!audio) return;
-
-                function showPlay() {
-                    playPath.style.display = 'block';
-                    pausePath.style.display = 'none';
-                    card.classList.remove('is-playing');
-                }
-                
-                function showPause() {
-                    playPath.style.display = 'none';
-                    pausePath.style.display = 'block';
-                    card.classList.add('is-playing');
-                }
+                if (!audioSource) return;
 
                 if(art) {
                     art.addEventListener('click', () => {
-                        if (audio.paused) {
-                            if (currentlyPlaying && currentlyPlaying !== audio) {
-                                currentlyPlaying.pause();
-                            }
-                            audio.play();
+                        if (currentlyPlayingCard === card) {
+                            // Pause the currently playing song
+                            audioPlayer.pause();
+                            showPlayState(card);
+                            currentlyPlayingCard = null;
                         } else {
-                            audio.pause();
+                            // Stop any currently playing song
+                            if (currentlyPlayingCard) {
+                                audioPlayer.pause();
+                                showPlayState(currentlyPlayingCard);
+                            }
+                            
+                            // Play the new beat
+                            audioPlayer.src = audioSource;
+                            audioPlayer.play().catch(e => console.error("Playback failed:", e));
+                            
+                            // Update UI and tracker
+                            resetAllCards(); // Redundant, but safe way to ensure all others stop
+                            showPauseState(card);
+                            currentlyPlayingCard = card;
                         }
                     });
                 }
-                
-                audio.addEventListener('ended', () => {
-                    showPlay();
-                    currentlyPlaying = null;
-                });
-                
-                audio.addEventListener('pause', () => {
-                    showPlay();
-                    if (currentlyPlaying === audio) {
-                        currentlyPlaying = null;
+
+                // Add listeners to the shared audio player to sync UI
+                audioPlayer.addEventListener('ended', () => {
+                    if (currentlyPlayingCard === card && audioPlayer.src === audioSource) {
+                        showPlayState(card);
+                        currentlyPlayingCard = null;
                     }
                 });
                 
-                audio.addEventListener('play', () => {
-                    beatCards.forEach(otherCard => {
-                        if (otherCard !== card) {
-                            otherCard.querySelector('.play-path').style.display = 'block';
-                            otherCard.querySelector('.pause-path').style.display = 'none';
-                            otherCard.classList.remove('is-playing');
-                        }
-                    });
-                    showPause();
-                    currentlyPlaying = audio;
+                audioPlayer.addEventListener('pause', () => {
+                    if (currentlyPlayingCard === card && audioPlayer.paused) {
+                        showPlayState(card);
+                        currentlyPlayingCard = null;
+                    }
                 });
+                
+                // Note: The 'play' event is handled by the click listener to immediately update the UI.
+
             });
 
-            // --- 5. NEW: Cart Functionality ---
-            
-            // Function to update the cart count in the header
-            function updateCartCount() {
-                const cart = JSON.parse(localStorage.getItem('bhxbeats_cart')) || [];
-                const cartCount = document.querySelector('.cart-count');
-                if (cartCount) {
-                    cartCount.textContent = cart.length;
-                    cartCount.style.display = cart.length > 0 ? 'flex' : 'none';
-                }
-            }
+            // --- 5. Cart Functionality ---
+            // Function to update the cart count in the header AND the bottom tab bar
+function updateCartCount() {
+    const cart = JSON.parse(localStorage.getItem('bhxbeats_cart')) || [];
+    
+    // For desktop header icon
+    const desktopCartCount = document.querySelector('.header-container .cart-count');
+    if (desktopCartCount) {
+        desktopCartCount.textContent = cart.length;
+        desktopCartCount.style.display = cart.length > 0 ? 'flex' : 'none';
+    }
+    
+    // For mobile tab bar icon: TARGET THE LAST TAB's .cart-count
+    const mobileCartCount = document.querySelector('.bottom-tab-bar a[href="cart.html"] .cart-count');
+    if (mobileCartCount) {
+        mobileCartCount.textContent = cart.length;
+        mobileCartCount.style.display = cart.length > 0 ? 'flex' : 'none';
+    }
+}
 
             // Function to handle adding items to the cart
             function addToCart(e) {
@@ -1154,7 +1438,6 @@
                 const image = card.querySelector('.art img').src;
 
                 // For this simple cart, we'll just add the "Basic License"
-                // A real site would pop up a modal to select a license
                 const license = 'Basic License'; 
                 
                 // Create a unique ID for this item *including* license
@@ -1182,9 +1465,13 @@
 
                 // Give user feedback
                 button.textContent = 'Added!';
+                button.classList.remove('btn-secondary');
+                button.classList.add('btn');
                 button.style.opacity = '0.7';
                 setTimeout(() => {
                     button.textContent = 'Add to Cart';
+                    button.classList.remove('btn');
+                    button.classList.add('btn-secondary');
                     button.style.opacity = '1';
                 }, 2000);
             }
@@ -1194,9 +1481,27 @@
             addToCartButtons.forEach(button => {
                 button.addEventListener('click', addToCart);
             });
+            
+            // --- 6. Tab Bar Active State Logic ---
+            const tabItems = document.querySelectorAll('.bottom-tab-bar .tab-item');
+            
+            function setActiveTab() {
+                // Since this is the beats.html page, always set "Beats" tab to active
+                tabItems.forEach(item => {
+                    item.classList.remove('active');
+                });
+                const beatsTab = document.querySelector('.bottom-tab-bar a[href="beats.html"]');
+                if (beatsTab) {
+                    beatsTab.classList.add('active');
+                }
+            }
+
 
             // --- Run on initial page load ---
             updateCartCount();
+            if (isMobile) {
+                setActiveTab();
+            }
         });
     </script>
     </body>

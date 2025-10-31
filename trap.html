@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Licensing | BHXBEATS</title>
+    <title>Trap Beats | BHXBEATS</title>
     
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;900&display=swap" rel="stylesheet">
 
@@ -108,7 +108,7 @@
         }
 
         .btn-secondary {
-            display: inline-block;
+            display: inline-block; /* Ensure button style applied */
             background: transparent;
             border: 2px solid var(--bg-dark-tertiary);
             color: var(--text-primary);
@@ -136,7 +136,7 @@
             text-fill-color: transparent;
         }
         
-        /* --- 3. Header & Navigation (Fixed for non-mobile) --- */
+        /* --- 3. Header & Navigation (Fixed on Desktop, Static on Mobile) --- */
         header {
             position: fixed;
             top: 0;
@@ -255,7 +255,7 @@
             border: 2px solid var(--bg-dark-primary);
             display: none; /* Hidden by default */
         }
-        
+
         /* --- 4. Page Header --- */
         #page-header {
             padding-top: 140px; /* Account for fixed header */
@@ -273,85 +273,129 @@
             margin-bottom: 0;
         }
 
-        /* --- 5. NEW: Licensing Grid Section (Copied/Adjusted from index.html) --- */
-        #licensing-plans {
+        /* --- 5. NEW: All Beats Grid Section (Replicating Featured Beats) --- */
+        #all-beats-section {
             padding-top: 0;
-            background: var(--bg-dark-secondary); /* Match original section */
         }
-        
-        .pricing-grid {
+
+        /* Replicating beat-grid styles for mobile list view */
+        .beat-grid {
             display: grid;
-            grid-template-columns: 1fr; /* Mobile stacks vertically */
-            gap: 2rem;
+            grid-template-columns: 1fr;
+            gap: 1.5rem;
         }
-
-        .pricing-card {
-            background: var(--bg-dark-primary);
-            padding: 30px;
-            border-radius: 12px;
-            text-align: center;
-            border: 2px solid var(--bg-dark-tertiary);
+        
+        .beat-card {
+            background: var(--bg-dark-secondary);
+            border-radius: 8px;
+            overflow: hidden;
+            border: 1px solid var(--bg-dark-tertiary);
             transition: all 0.3s ease;
+            display: grid;
+            grid-template-columns: 80px 1fr; /* Image and Info in a row */
+            gap: 15px;
+            padding: 10px;
+        }
+        
+        .beat-card .art {
             position: relative;
+            width: 80px;
+            height: 80px;
+            aspect-ratio: 1 / 1;
+            background: #333;
+            overflow: hidden; 
+            cursor: pointer;
+            border-radius: 6px;
         }
         
-        .pricing-card.popular {
-            border-color: var(--accent-primary);
-            box-shadow: 0 10px 40px rgba(110, 0, 255, 0.2);
+        .beat-card .art img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.3s ease;
         }
-        
-        .popular-badge {
+
+        .art-overlay {
             position: absolute;
-            top: -15px;
-            left: 50%;
-            transform: translateX(-50%);
-            background: var(--brand-gradient);
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.6);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+        
+        .art-overlay .play-icon {
+            width: 30px; /* Smaller icon for list view */
+            height: 30px;
+            fill: rgba(255, 255, 255, 0.9);
+            transform: scale(0.8);
+            transition: transform 0.3s ease;
+        }
+        
+        .play-icon .pause-path { display: none; }
+
+        .beat-card.is-playing .art-overlay { opacity: 1; }
+        .beat-card.is-playing .play-icon { transform: scale(1); }
+        .beat-card.is-playing .pause-path { display: block; }
+        .beat-card.is-playing .play-path { display: none; }
+
+        .beat-card .info {
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .beat-card h3 {
+            font-size: 1.1rem;
+            margin-bottom: 0;
             color: #fff;
-            padding: 5px 15px;
+        }
+        
+        .beat-card .tags {
+            margin-bottom: 5px;
+        }
+
+        .beat-card .tags span {
+            display: inline-block;
+            background: var(--bg-dark-primary); /* Darker background for tags */
+            color: var(--text-secondary);
+            font-size: 0.65rem;
+            padding: 2px 7px;
             border-radius: 20px;
-            font-size: 0.8rem;
+            margin-right: 5px;
+            font-weight: 600;
+        }
+
+        .beat-card .player { display: none; }
+
+        .beat-card .actions {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 0.5rem;
+            gap: 10px;
+        }
+
+        .beat-card .price {
+            font-size: 1.2rem;
             font-weight: 700;
-            text-transform: uppercase;
-        }
-
-        .pricing-card h3 {
-            font-size: 1.3rem;
-            text-transform: uppercase;
-            letter-spacing: 1px;
             color: var(--accent-primary);
         }
-
-        .pricing-card .price-tag {
-            font-size: 2.5rem;
-            font-weight: 900;
-            color: #fff;
-            margin: 0.5rem 0;
-        }
         
-        .pricing-card .price-tag span {
-            font-size: 1rem;
-            font-weight: 400;
-            color: var(--text-secondary);
+        .beat-card .btn-secondary {
+            padding: 8px 15px;
+            font-size: 0.75rem;
+            font-weight: 700;
+            letter-spacing: 0;
+            border-width: 1px;
         }
 
-        .pricing-card ul {
-            list-style: none;
-            margin: 2rem 0;
-            text-align: left;
-        }
-
-        .pricing-card ul li {
-            padding: 8px 0;
-            color: var(--text-secondary);
-        }
-        
-        .pricing-card ul li::before {
-            content: '✓';
-            color: var(--accent-primary);
-            font-weight: bold;
-            margin-right: 10px;
-        }
-        
         /* --- 6. Footer (Copied from index.html) --- */
         footer {
             background: #000;
@@ -442,18 +486,12 @@
             #page-header {
                 padding-top: 0;
                 padding-bottom: 40px;
-                text-align: left;
             }
             #page-header h1 {
                 font-size: 2.5rem;
             }
             #page-header p {
                 font-size: 1rem;
-            }
-            
-            /* --- 5. Pricing Grid Override (Vertical Stack for App) --- */
-            .pricing-grid {
-                gap: 1.5rem;
             }
 
             /* --- NEW: Bottom Tab Bar (App Navigation) --- */
@@ -481,6 +519,7 @@
                 font-size: 0.7rem;
                 font-weight: 600;
                 transition: color 0.3s ease;
+                position: relative; /* IMPORTANT for cart-count relative positioning */
             }
             
             .tab-item.active {
@@ -498,7 +537,8 @@
                 position: absolute;
                 top: 5px;
                 right: 50%;
-                margin-right: -25px; 
+                /* FIX APPLIED HERE: Corrected margin for accurate alignment over the Cart icon */
+                margin-right: -10px; 
                 transform: translateX(50%);
                 border: 2px solid var(--bg-dark-secondary);
             }
@@ -520,6 +560,12 @@
 
         /* --- 8. Desktop Grid Styles (Revert to 3 Columns) --- */
         @media (min-width: 768px) {
+            
+            /* FIX 2 APPLIED HERE: Hide bottom tab bar on desktop */
+            .bottom-tab-bar { 
+                display: none !important; 
+            }
+            
             #page-header {
                 padding-top: 160px;
                 padding-bottom: 100px;
@@ -550,13 +596,39 @@
             .hamburger { display: none; }
             body { padding-bottom: 0; }
             
-            /* Pricing Grid Desktop */
-            .pricing-grid {
-                grid-template-columns: repeat(3, 1fr);
+            /* Revert Beat Grid to proper card layout */
+            .beat-grid {
+                grid-template-columns: repeat(2, 1fr);
                 gap: 2rem;
             }
-            .pricing-card.popular {
-                transform: scale(1.05); /* Keep desktop scale up effect */
+            
+            .beat-card {
+                display: block; /* Back to vertical card layout */
+                padding: 0;
+            }
+            .beat-card .art {
+                width: 100%;
+                height: auto;
+                aspect-ratio: 1 / 1;
+                border-radius: 8px 8px 0 0;
+            }
+            .beat-card .info {
+                padding: 20px;
+                height: auto;
+            }
+            .beat-card .tags {
+                margin-bottom: 15px;
+            }
+            .beat-card .tags span {
+                font-size: 0.75rem;
+                padding: 4px 10px;
+            }
+            .beat-card .actions {
+                margin-top: 1rem;
+            }
+            .beat-card .btn-secondary {
+                padding: 14px 32px;
+                font-size: 0.9rem;
             }
             
             /* Footer Grid */
@@ -567,10 +639,11 @@
             }
             .footer-about p { margin: 0; }
             .social-links { justify-content: flex-start; }
-            
-            /* Hide mobile nav */
-            .bottom-tab-bar {
-                display: none !important;
+        }
+        
+        @media (min-width: 1024px) {
+            .beat-grid {
+                grid-template-columns: repeat(3, 1fr);
             }
         }
     </style>
@@ -583,9 +656,9 @@
             <nav>
                 <ul class="nav-links">
                     <li><a href="index.html">Home</a></li>
-                    <li><a href="beats.html">Beats</a></li>
+                    <li><a href="beats.html" class="active">Beats</a></li>
                     <li><a href="index.html#genres">Genres</a></li>
-                    <li><a href="license.html" class="active">Licensing</a></li>
+                    <li><a href="index.html#licensing">Licensing</a></li>
                     <li><a href="index.html#about-us">About</a></li>
                 </ul>
             </nav>
@@ -607,63 +680,126 @@
 
         <section id="page-header">
             <div class="container">
-                <h1>License <span class="text-gradient">Plans</span></h1>
-                <p>Choose the perfect license for your music goals. All plans are straightforward and royalty-free.</p>
+                <h1>Trap <span class="text-gradient">Beats</span></h1>
+                <p>Hard-hitting 808s, dark melodies, and high-energy drums for your next street anthem or club banger.</p>
             </div>
         </section>
         
-        <section id="licensing-plans">
+        <section id="all-beats-section">
             <div class="container">
                 
-                <div class="pricing-grid">
+                <div class="beat-grid">
                     
-                    <div class="pricing-card" data-license="basic" data-price="9.99">
-                        <h3>Basic</h3>
-                        <div class="price-tag">$9<span>.99</span></div>
-                        <ul>
-                            <li>MP3 File</li>
-                            <li>50,000 Streams</li>
-                            <li>Use for 1 Music Video</li>
-                            <li>Must Credit (Prod. BHXBEATS)</li>
-                        </ul>
-                        <a href="beats.html" class="btn btn-secondary license-select-btn">Select Plan & Browse Beats</a>
-                    </div>
-                    
-                    <div class="pricing-card popular" data-license="premium" data-price="25.00">
-                        <div class="popular-badge">Most Popular</div>
-                        <h3>Premium</h3>
-                        <div class="price-tag">$25<span>.00</span></div>
-                        <ul>
-                            <li>MP3 & WAV Files</li>
-                            <li>500,000 Streams</li>
-                            <li>Use for 5 Music Video</li>
-                            <li>Must Credit (Prod. BHXBEATS)</li>
-                        </ul>
-                        <a href="beats.html" class="btn license-select-btn">Select Plan & Browse Beats</a>
+                    <div class="beat-card" data-genre="trap">
+                        <div class="art" data-beat="trap1">
+                            <img src="https://img.youtube.com/vi/nSjXnUcNkX8/maxresdefault.jpg" alt="Beat Art 1">
+                            <div class="art-overlay">
+                                <svg class="play-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path class="play-path" d="M8 5v14l11-7z"/><path class="pause-path" d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/></svg>
+                            </div>
+                        </div>
+                        <div class="info">
+                            <h3>Still Love</h3>
+                            <div class="tags">
+                                <span>Trap</span>
+                                <span>145 BPM</span>
+                                <span>C# Min</span>
+                            </div>
+                            <audio class="player" id="trap1" src="nSjXnUcNkX8" preload="none"></audio>
+                            <div class="actions">
+                                <span class="price">$1.99</span>
+                                <a href="#" class="btn btn-secondary add-to-cart-btn" data-beat-id="trap1">Add to Cart</a>
+                            </div>
+                        </div>
                     </div>
 
-                    <div class="pricing-card" data-license="unlimited" data-price="49.99">
-                        <h3>Unlimited</h3>
-                        <div class="price-tag">$49<span>.99</span></div>
-                        <ul>
-                            <li>MP3, WAV & Track Stems</li>
-                            <li>Unlimited Streams</li>
-                            <li>Unlimited Music Videos</li>
-                            <li>No Credit Required</li>
-                        </ul>
-                        <a href="beats.html" class="btn btn-secondary license-select-btn">Select Plan & Browse Beats</a>
+                    <div class="beat-card" data-genre="trap">
+                        <div class="art" data-beat="trap2">
+                            <img src="https://images.unsplash.com/photo-1518774027798-84260a996f8c?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1740&q=80" alt="Beat Art 2">
+                            <div class="art-overlay">
+                                <svg class="play-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path class="play-path" d="M8 5v14l11-7z"/><path class="pause-path" d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/></svg>
+                            </div>
+                        </div>
+                        <div class="info">
+                            <h3>Phantom</h3>
+                            <div class="tags">
+                                <span>Dark Trap</span>
+                                <span>160 BPM</span>
+                                <span>F Min</span>
+                            </div>
+                            <audio class="player" id="trap2" src="b_V6t7l1P6I" preload="none"></audio>
+                            <div class="actions">
+                                <span class="price">$2.99</span>
+                                <a href="#" class="btn btn-secondary add-to-cart-btn" data-beat-id="trap2">Add to Cart</a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="beat-card" data-genre="trap">
+                        <div class="art" data-beat="trap3">
+                            <img src="https://images.unsplash.com/photo-1542223616-740d5dff7f56?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1740&q=80" alt="Beat Art 3">
+                            <div class="art-overlay">
+                                <svg class="play-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path class="play-path" d="M8 5v14l11-7z"/><path class="pause-path" d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/></svg>
+                            </div>
+                        </div>
+                        <div class="info">
+                            <h3>Apex</h3>
+                            <div class="tags">
+                                <span>Future Trap</span>
+                                <span>150 BPM</span>
+                            </div>
+                            <audio class="player" id="trap3" src="g4k3t8rP1dM" preload="none"></audio>
+                            <div class="actions">
+                                <span class="price">$3.99</span>
+                                <a href="#" class="btn btn-secondary add-to-cart-btn" data-beat-id="trap3">Add to Cart</a>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="beat-card" data-genre="trap">
+                        <div class="art" data-beat="trap4">
+                            <img src="https://images.unsplash.com/photo-1604164387532-a337189d231a?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1740&q=80" alt="Beat Art 4">
+                            <div class="art-overlay">
+                                <svg class="play-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path class="play-path" d="M8 5v14l11-7z"/><path class="pause-path" d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/></svg>
+                            </div>
+                        </div>
+                        <div class="info">
+                            <h3>Warzone</h3>
+                            <div class="tags">
+                                <span>Hard Trap</span>
+                                <span>140 BPM</span>
+                                <span>B Min</span>
+                            </div>
+                            <audio class="player" id="trap4" src="O6B8_8R9vX4" preload="none"></audio>
+                            <div class="actions">
+                                <span class="price">$3.99</span>
+                                <a href="#" class="btn btn-secondary add-to-cart-btn" data-beat-id="trap4">Add to Cart</a>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="beat-card" data-genre="trap">
+                        <div class="art" data-beat="trap5">
+                            <img src="https://images.unsplash.com/photo-1593693397645-c6d69151d085?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1740&q=80" alt="Beat Art 5">
+                            <div class="art-overlay">
+                                <svg class="play-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path class="play-path" d="M8 5v14l11-7z"/><path class="pause-path" d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/></svg>
+                            </div>
+                        </div>
+                        <div class="info">
+                            <h3>Rage Quit</h3>
+                            <div class="tags">
+                                <span>Drill Trap</span>
+                                <span>145 BPM</span>
+                            </div>
+                            <audio class="player" id="trap5" src="a4L4cR1vW3z" preload="none"></audio>
+                            <div class="actions">
+                                <span class="price">$4.99</span>
+                                <a href="#" class="btn btn-secondary add-to-cart-btn" data-beat-id="trap5">Add to Cart</a>
+                            </div>
+                        </div>
                     </div>
                     
                 </div>
 
-            </div>
-        </section>
-        
-        <section id="terms">
-            <div class="container">
-                <h2>Detailed <span class="text-gradient">Terms</span></h2>
-                <p>For a full breakdown of usage rights and restrictions for each license, please click the corresponding plan's 'Select Plan & Browse Beats' button. Your selection will be remembered as you browse our catalog.</p>
-                <p>Note: Beat purchases on our other pages default to the Basic License ($1.99) unless a license is explicitly selected here or during the checkout process.</p>
             </div>
         </section>
 
@@ -681,7 +817,7 @@
                 <ul>
                     <li><a href="beats.html">Beats</a></li>
                     <li><a href="index.html#genres">Genres</a></li>
-                    <li><a href="license.html">Licensing</a></li>
+                    <li><a href="index.html#licensing">Licensing</a></li>
                     <li><a href="index.html#about-us">About Us</a></li>
                 </ul>
             </div>
@@ -705,7 +841,7 @@
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8h5z"/></svg>
             Home
         </a>
-        <a href="beats.html" class="tab-item">
+        <a href="beats.html" class="tab-item active">
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 3v10.55c-.59-.34-1.27-.55-2-.55-2.21 0-4 1.79-4 4s1.79 4 4 4 4-1.79 4-4V7h4V3h-6z"/></svg>
             Beats
         </a>
@@ -743,7 +879,7 @@
                 });
             }
             
-            // --- 2. Cart Count Updater ---
+            // --- 2. Cart Count Updater (Updated for Tab Bar) ---
             function updateCartCount() {
                 const cart = JSON.parse(localStorage.getItem('bhxbeats_cart')) || [];
                 
@@ -761,52 +897,159 @@
                     mobileCartCount.style.display = cart.length > 0 ? 'flex' : 'none';
                 }
             }
-            
-            // --- 3. License Selection Logic (NEW) ---
-            const licenseButtons = document.querySelectorAll('.license-select-btn');
-            
-            licenseButtons.forEach(button => {
-                button.addEventListener('click', (e) => {
-                    // Prevent navigation immediately
-                    e.preventDefault(); 
-                    
-                    const card = button.closest('.pricing-card');
-                    const licenseType = card.dataset.license;
-                    
-                    // Save the selected license to localStorage
-                    localStorage.setItem('bhxbeats_selected_license', licenseType);
-                    
-                    // Give user feedback & navigate
-                    button.textContent = 'Selected! Going to Beats...';
-                    button.classList.remove('btn-secondary');
-                    button.classList.add('btn');
-                    button.style.opacity = '0.7';
 
-                    // Navigate to the beats page after a short delay
-                    setTimeout(() => {
-                        window.location.href = 'beats.html';
-                    }, 500);
+            // --- 3. Interactive Beat Player Logic (Copied from index.html) ---
+            const beatCards = document.querySelectorAll('.beat-card');
+            let currentlyPlaying = null; 
+
+            let youtubeAudioPlayer = new Audio();
+            youtubeAudioPlayer.crossOrigin = "anonymous";
+            
+            function getBeatAudioSource(youtubeId) {
+                // Mapping IDs to generic MP3 placeholders for demonstration
+                if (youtubeId === 'nSjXnUcNkX8') return 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3'; // Still Love
+                if (youtubeId === 'b_V6t7l1P6I') return 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-5.mp3'; // Phantom
+                if (youtubeId === 'g4k3t8rP1dM') return 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-3.mp3'; // Apex
+                if (youtubeId === 'O6B8_8R9vX4') return 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-4.mp3'; // Warzone
+                if (youtubeId === 'a4L4cR1vW3z') return 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-6.mp3'; // Rage Quit
+                return 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3'; // Fallback
+            }
+
+            beatCards.forEach(card => {
+                const art = card.querySelector('.art');
+                const beatId = art.dataset.beat;
+                const audioElement = card.querySelector(`#${beatId}`); 
+                const youtubeId = audioElement.getAttribute('src');
+                const playPath = card.querySelector('.play-path');
+                const pausePath = card.querySelector('.pause-path');
+                
+                if (!youtubeId) return;
+
+                function showPlay() {
+                    if (playPath) playPath.style.display = 'block';
+                    if (pausePath) pausePath.style.display = 'none';
+                    card.classList.remove('is-playing');
+                }
+                
+                function showPause() {
+                    if (playPath) playPath.style.display = 'none';
+                    if (pausePath) pausePath.style.display = 'block';
+                    card.classList.add('is-playing');
+                }
+                
+                function resetAllCards() {
+                    beatCards.forEach(otherCard => {
+                        otherCard.classList.remove('is-playing');
+                        const otherPlayPath = otherCard.querySelector('.play-path');
+                        const otherPausePath = otherCard.querySelector('.pause-path');
+                        if (otherPlayPath) otherPlayPath.style.display = 'block';
+                        if (otherPausePath) otherPausePath.style.display = 'none';
+                    });
+                }
+
+                if(art) {
+                    art.addEventListener('click', () => {
+                        const isThisCardPlaying = card.classList.contains('is-playing');
+                        
+                        if (isThisCardPlaying) {
+                            youtubeAudioPlayer.pause();
+                            resetAllCards();
+                            currentlyPlaying = null;
+                        } else {
+                            if (currentlyPlaying) {
+                                currentlyPlaying.pause();
+                                resetAllCards(); 
+                            }
+                            
+                            youtubeAudioPlayer.src = getBeatAudioSource(youtubeId);
+                            youtubeAudioPlayer.play().catch(e => console.error("Playback failed:", e));
+                            
+                            showPause();
+                            currentlyPlaying = youtubeAudioPlayer;
+                            youtubeAudioPlayer.playingCard = card;
+                        }
+                    });
+                }
+                
+                // Add listeners to the global player to sync UI
+                youtubeAudioPlayer.addEventListener('ended', () => {
+                    if (youtubeAudioPlayer.playingCard === card) {
+                        showPlay();
+                        youtubeAudioPlayer.playingCard = null;
+                        currentlyPlaying = null;
+                    }
+                });
+                
+                youtubeAudioPlayer.addEventListener('pause', () => {
+                    if (youtubeAudioPlayer.playingCard === card) {
+                        showPlay();
+                        youtubeAudioPlayer.playingCard = null;
+                        currentlyPlaying = null;
+                    }
+                });
+                
+                youtubeAudioPlayer.addEventListener('play', () => {
+                    if (youtubeAudioPlayer.playingCard === card) {
+                        resetAllCards(); 
+                        showPause(); 
+                    }
                 });
             });
 
-            // --- 4. Tab Bar Active State Logic (Desktop link active only) ---
-            const tabItems = document.querySelectorAll('.bottom-tab-bar .tab-item');
-            
-            function setActiveTab() {
-                tabItems.forEach(item => {
-                    item.classList.remove('active');
-                });
-                // Manually set the desktop link as active for visual consistency
-                const desktopLicensingLink = document.querySelector('.nav-links a[href="license.html"]');
-                if (desktopLicensingLink) {
-                    desktopLicensingLink.classList.add('active');
-                }
+
+            // --- 4. Cart Functionality (Copied from index.html) ---
+            function addToCart(e) {
+                e.preventDefault(); 
+                
+                const button = e.target;
+                const card = button.closest('.beat-card');
+                
+                const beatId = button.dataset.beatId; 
+                const title = card.querySelector('h3').textContent;
+                const priceText = card.querySelector('.price').textContent.replace('$', '');
+                const price = parseFloat(priceText);
+                const image = card.querySelector('.art img').src;
+
+                // For this simple cart, we'll just add the "Basic License"
+                const license = 'Basic License'; 
+                
+                const cartItemId = `${beatId}_basic`; // Unique ID
+
+                const cartItem = {
+                    id: cartItemId,
+                    title: title,
+                    price: price,
+                    image: image,
+                    license: license
+                };
+
+                let cart = JSON.parse(localStorage.getItem('bhxbeats_cart')) || [];
+                cart.push(cartItem);
+                localStorage.setItem('bhxbeats_cart', JSON.stringify(cart));
+                
+                updateCartCount();
+
+                // Give user feedback
+                button.textContent = 'Added!';
+                button.classList.remove('btn-secondary');
+                button.classList.add('btn');
+                button.style.opacity = '0.7';
+                setTimeout(() => {
+                    button.textContent = 'Add to Cart';
+                    button.classList.remove('btn');
+                    button.classList.add('btn-secondary');
+                    button.style.opacity = '1';
+                }, 2000);
             }
 
-
+            // Add listeners to all "Add to Cart" buttons
+            const addToCartButtons = document.querySelectorAll('.add-to-cart-btn');
+            addToCartButtons.forEach(button => {
+                button.addEventListener('click', addToCart);
+            });
+            
             // --- Initial Page Load ---
             updateCartCount();
-            setActiveTab();
         });
     </script>
 </body>

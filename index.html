@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>BHXBEATS | Next-Gen Beats</title>
     
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght400;600;700;900&display=swap" rel="stylesheet">
 
     <style>
         /* --- 1. Global Variables & Resets --- */
@@ -36,6 +36,8 @@
             color: var(--text-primary);
             line-height: 1.7;
             overflow-x: hidden;
+            /* Added padding-bottom to ensure content is above the bottom tab bar */
+            padding-bottom: 70px; /* Space for the bottom tab bar */
         }
 
         h1, h2, h3, h4, h5, h6 {
@@ -136,7 +138,7 @@
             text-fill-color: transparent;
         }
         
-        /* --- 3. Header & Navigation --- */
+        /* --- 3. Header & Navigation (Mobile styles are overridden in the app-view media query) --- */
         header {
             position: fixed;
             top: 0;
@@ -620,7 +622,7 @@
             background: linear-gradient(to top, rgba(110, 0, 255, 0.7), rgba(0,0,0,0.4));
         }
 
-        /* --- 8. [MODIFIED] Licensing Section (Mobile Carousel) --- */
+        /* --- 8. [MODIFIED] Licensing Section (Desktop Grid, Mobile Carousel) --- */
         #licensing {
             background: var(--bg-dark-secondary);
         }
@@ -632,6 +634,7 @@
             scroll-snap-type: x mandatory;
             -webkit-overflow-scrolling: touch;
             padding-bottom: 10px;
+            /* Default mobile styling, which will be adjusted in the media query for the 3-card peek */
         }
 
         .pricing-card {
@@ -642,7 +645,7 @@
             border: 2px solid var(--bg-dark-tertiary);
             transition: all 0.3s ease;
             position: relative;
-            flex: 0 0 90%; /* Card width on mobile */
+            flex: 0 0 90%; /* Default card width on mobile carousel */
             scroll-snap-align: center;
         }
         
@@ -654,7 +657,8 @@
         
         .popular-badge {
             position: absolute;
-            top: -15px;
+            /* FIX 1 APPLIED HERE: Move the badge down to ensure it is not cut off */
+            top: 5px; 
             left: 50%;
             transform: translateX(-50%);
             background: var(--brand-gradient);
@@ -859,25 +863,273 @@
             opacity: 1;
             transform: translateY(0);
         }
-
-        /* --- 13. Responsive Design (Tablet & Desktop) --- */
         
-        @media (max-width: 480px) {
-            #hero h1 {
-                font-size: 2.2rem;
+        /* --- 13. [NEW] Mobile App View Styles (Overrides for max-width: 767px) --- */
+        @media (max-width: 767px) {
+            
+            /* --- 3. Header/Nav Override (App-style) --- */
+            header {
+                position: static; /* No longer fixed or sticky */
+                padding: 15px 0;
+                background-color: var(--bg-dark-primary);
+                border-bottom: none;
+                box-shadow: none;
+                backdrop-filter: none;
             }
-            #hero p {
-                font-size: 1rem;
+            
+            .header-container {
+                justify-content: flex-start; /* Keep logo to the left */
+                gap: 15px;
             }
-            /* Adjust carousel card sizes for very small screens */
-            .feature-card { flex-basis: 90%; }
-            .beat-card { flex-basis: 95%; }
-            .genre-card { flex-basis: 70%; }
-            .pricing-card { flex-basis: 95%; }
-        }
+            
+            .logo {
+                flex-grow: 1; /* Push others to the right */
+            }
+            
+            /* Hide the original mobile nav and hamburger */
+            .nav-links, .hamburger {
+                display: none !important;
+            }
+            
+            .cart-icon-link {
+                /* Relocate cart to the bottom tab bar */
+                display: none !important;
+            }
+            
+            /* Add some top padding to content now that the header isn't fixed */
+            #hero {
+                padding-top: 0;
+                min-height: 85vh; /* Make hero a bit smaller */
+            }
+            
+            h2 {
+                margin-bottom: 2rem;
+            }
 
+            /* --- NEW: Bottom Tab Bar (App Navigation) --- */
+            .bottom-tab-bar {
+                display: flex;
+                position: fixed;
+                bottom: 0;
+                left: 0;
+                width: 100%;
+                background: var(--bg-dark-secondary);
+                box-shadow: 0 -5px 20px rgba(0,0,0,0.5);
+                height: 65px;
+                z-index: 1000;
+                border-top: 1px solid var(--bg-dark-tertiary);
+            }
+            
+            .tab-item {
+                flex: 1;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                justify-content: center;
+                color: var(--text-secondary);
+                text-decoration: none;
+                font-size: 0.7rem;
+                font-weight: 600;
+                transition: color 0.3s ease;
+                position: relative; /* IMPORTANT for cart-count relative positioning */
+            }
+            
+            .tab-item:hover {
+                color: var(--accent-primary);
+            }
+
+            .tab-item.active {
+                color: var(--accent-primary);
+            }
+            
+            .tab-item svg {
+                width: 24px;
+                height: 24px;
+                fill: currentColor; /* Use the item's text color */
+                margin-bottom: 3px;
+            }
+            
+            .tab-item .cart-count {
+                position: absolute;
+                top: 5px;
+                right: 50%;
+                /* FIX 3 APPLIED HERE: Corrected margin for accurate alignment over the Cart icon */
+                margin-right: -10px; 
+                transform: translateX(50%);
+                border: 2px solid var(--bg-dark-secondary); /* Match tab bar background */
+            }
+
+            /* --- 5. Features Section: Change to a list-style layout for app feel --- */
+            .feature-grid {
+                display: grid;
+                grid-template-columns: 1fr;
+                gap: 1rem;
+                overflow-x: visible;
+                scroll-snap-type: none;
+                padding-bottom: 0;
+            }
+            
+            .feature-card {
+                flex: auto;
+                text-align: left;
+                display: flex;
+                align-items: center;
+                padding: 15px 20px;
+            }
+            
+            .feature-card .icon {
+                width: 35px;
+                height: 35px;
+                min-width: 35px;
+                margin: 0 15px 0 0;
+            }
+            
+            .feature-card h3 {
+                margin-bottom: 0;
+                font-size: 1.1rem;
+            }
+            
+            .feature-card p {
+                display: none; /* Hide description for a cleaner app list view */
+            }
+            
+            /* --- 6. Featured Beats: Full vertical list view (app feed) --- */
+            .beat-grid {
+                display: grid;
+                grid-template-columns: 1fr;
+                gap: 1rem;
+                overflow-x: visible;
+                scroll-snap-type: none;
+                padding-bottom: 0;
+            }
+            
+            .beat-card {
+                flex: auto;
+                display: grid;
+                grid-template-columns: 80px 1fr; /* Image and Info in a row */
+                gap: 15px;
+                border-radius: 8px;
+                padding: 10px;
+            }
+            
+            .beat-card .art {
+                aspect-ratio: 1 / 1;
+                border-radius: 6px;
+                overflow: hidden;
+            }
+            
+            .beat-card .info {
+                padding: 0;
+                display: flex;
+                flex-direction: column;
+                justify-content: space-between;
+            }
+            
+            .beat-card h3 {
+                font-size: 1.1rem;
+                margin-bottom: 0;
+            }
+            
+            .beat-card .tags {
+                margin-bottom: 5px;
+            }
+            
+            .beat-card .tags span {
+                padding: 2px 7px;
+                font-size: 0.65rem;
+            }
+            
+            .beat-card .actions {
+                margin-top: 0.5rem;
+                gap: 10px;
+            }
+            
+            .beat-card .price {
+                font-size: 1.2rem;
+            }
+            
+            .beat-card .btn-secondary {
+                padding: 8px 15px;
+                font-size: 0.75rem;
+                font-weight: 700;
+                letter-spacing: 0;
+                border-width: 1px;
+            }
+            
+            /* Hide hover effects on touch devices for a native feel */
+            .beat-card:hover {
+                transform: none;
+                box-shadow: none;
+                border-color: var(--bg-dark-tertiary);
+            }
+            .beat-card:hover .art img {
+                transform: none;
+            }
+
+            /* --- 7. Genre Section: Carousel is fine, but adjust card size --- */
+            .genre-card {
+                flex: 0 0 45%; /* Show two cards partially */
+            }
+
+            /* --- 8. Licensing Section: FIX for 3-card peek carousel --- */
+            .pricing-grid {
+                /* Revert to flex for carousel */
+                display: flex; 
+                scroll-snap-type: x mandatory;
+                overflow-x: scroll;
+                padding-bottom: 10px;
+                /* Add padding to the start/end to center the first/last card */
+                padding-left: calc(50% - (75% / 2)); 
+                padding-right: calc(50% - (75% / 2));
+                margin-left: -20px; /* Counteract container's padding */
+                margin-right: -20px;
+                width: auto;
+            }
+            
+            .pricing-card {
+                /* 75% width leaves 25% to be split between the two side cards (12.5% each) */
+                flex: 0 0 75%; 
+                scroll-snap-align: center;
+                border: 2px solid var(--bg-dark-tertiary);
+                transition: all 0.3s ease;
+            }
+            .pricing-card:not(.popular) {
+                /* Reduce size/opacity of non-active cards slightly for visual cue */
+                opacity: 0.85;
+                transform: scale(0.95);
+            }
+            .pricing-card.popular {
+                /* Ensure the popular one is prominent when scrolled to */
+                border-color: var(--accent-primary);
+                transform: scale(1); 
+                box-shadow: 0 10px 40px rgba(110, 0, 255, 0.2);
+                opacity: 1;
+            }
+            
+            /* --- 11. Footer: Hide unnecessary footer links for app view (already handled by the tab bar) --- */
+            footer {
+                padding-top: 40px;
+                padding-bottom: 65px; /* Adjust for the bottom tab bar */
+            }
+            
+            .footer-container {
+                gap: 20px;
+                padding-bottom: 20px;
+            }
+            
+            .footer-links, .footer-social {
+                display: none; /* Hide detailed links for the app-like view */
+            }
+        }
+        
         /* Tablet & Up: Revert Carousels to Grids */
         @media (min-width: 768px) {
+            
+            /* FIX 2 APPLIED HERE: Hide bottom tab bar on desktop */
+            .bottom-tab-bar { 
+                display: none !important; 
+            }
+            
             h2 {
                 font-size: 2.8rem;
             }
@@ -905,6 +1157,7 @@
                 flex-direction: row;
                 transform: translateX(0);
                 box-shadow: none;
+                display: flex; /* Ensure it's visible on desktop */
             }
             .nav-links li {
                 margin: 0 0 0 30px;
@@ -917,17 +1170,37 @@
             .feature-grid {
                 display: grid;
                 grid-template-columns: repeat(3, 1fr);
+                overflow-x: visible;
+                scroll-snap-type: none;
             }
             .feature-card {
                 flex: auto; /* Revert flex-basis */
+                text-align: center;
+                display: block;
+                padding: 30px 20px;
+            }
+            .feature-card .icon {
+                margin: 0 auto 1.5rem auto;
+                width: 50px;
+                height: 50px;
+            }
+            .feature-card p {
+                display: block;
             }
             
             .beat-grid {
                 display: grid;
                 grid-template-columns: repeat(2, 1fr);
+                overflow-x: visible;
+                scroll-snap-type: none;
             }
             .beat-card {
                 flex: auto; /* Revert flex-basis */
+                display: block; /* Revert to block layout */
+                padding: 0;
+            }
+            .beat-card .info {
+                padding: 20px;
             }
 
             .genre-grid {
@@ -938,15 +1211,20 @@
                 flex: auto; /* Revert flex-basis */
             }
             
+            /* Desktop Pricing Grid */
             .pricing-grid {
                 display: grid;
                 grid-template-columns: repeat(3, 1fr);
+                padding: 0; /* Reset mobile padding */
+                margin: 0; /* Reset mobile margin */
             }
             .pricing-card {
                 flex: auto; /* Revert flex-basis */
+                opacity: 1;
+                transform: none;
             }
             .pricing-card.popular {
-                transform: scale(1.05);
+                transform: scale(1.05); /* Keep desktop scale up effect */
             }
             
             .about-grid {
@@ -969,12 +1247,55 @@
             .animate-on-scroll {
                 transition-delay: var(--delay, 0s);
             }
+            
+            body {
+                padding-bottom: 0; /* Remove mobile padding */
+            }
+            header.header-scrolled {
+                position: fixed; /* Re-enable sticky header on scroll for desktop */
+            }
         }
         
         /* Desktop */
         @media (min-width: 1024px) {
             .beat-grid {
                 grid-template-columns: repeat(3, 1fr);
+            }
+            .about-grid {
+                grid-template-columns: 1fr 1fr; /* Revert to two columns for desktop */
+            }
+            .about-image {
+                grid-column: 2 / 3;
+                grid-row: 1 / 2;
+            }
+            .about-text {
+                grid-column: 1 / 2;
+                grid-row: 1 / 2;
+            }
+        }
+        
+        /* Very Small Screens */
+        @media (max-width: 480px) {
+            #hero h1 {
+                font-size: 2.2rem;
+            }
+            #hero p {
+                font-size: 1rem;
+            }
+            /* Adjust carousel card sizes for very small screens */
+            .feature-card { flex-basis: 90%; }
+            .genre-card { flex-basis: 50%; }
+            
+            .pricing-card { 
+                flex: 0 0 80%; /* Adjust for smaller screens to still show peek */
+            }
+            .pricing-grid {
+                padding-left: calc(50% - (80% / 2)); 
+                padding-right: calc(50% - (80% / 2));
+            }
+            
+            .beat-card {
+                grid-template-columns: 70px 1fr; /* Smaller image on tiny screens */
             }
         }
 
@@ -1053,19 +1374,19 @@
                     
                     <div class="beat-card animate-on-scroll">
                         <div class="art" data-beat="beat1">
-                            <img src="https://images.unsplash.com/photo-1514320291840-2e0a9bf2a9ae?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1740&q=80" alt="Beat Art 1">
+                            <img src="https://img.youtube.com/vi/nSjXnUcNkX8/maxresdefault.jpg" alt="Beat Art 1">
                             <div class="art-overlay">
                                 <svg class="play-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path class="play-path" d="M8 5v14l11-7z"/><path class="pause-path" d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/></svg>
                             </div>
                         </div>
                         <div class="info">
-                            <h3>Midnight Run</h3>
+                            <h3>Still Love</h3>
                             <div class="tags">
                                 <span>Trap</span>
                                 <span>145 BPM</span>
                                 <span>C# Min</span>
                             </div>
-                            <audio class="player" id="beat1" src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" preload="none"></audio>
+                            <audio class="player" id="beat1" src="nSjXnUcNkX8" preload="none"></audio>
                             <div class="actions">
                                 <span class="price">$1.99</span>
                                 <a href="cart.html" class="btn btn-secondary">Add to Cart</a>
@@ -1087,7 +1408,7 @@
                                 <span>80 BPM</span>
                                 <span>F Maj</span>
                             </div>
-                            <audio class="player" id="beat2" src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-2.mp3" preload="none"></audio>
+                            <audio class="player" id="beat2" src="jfKfPfyBkdg" preload="none"></audio>
                             <div class="actions">
                                 <span class="price">$1.99</span>
                                 <a href="cart.html" class="btn btn-secondary">Add to Cart</a>
@@ -1108,7 +1429,7 @@
                                 <span>Orchestral</span>
                                 <span>120 BPM</span>
                             </div>
-                            <audio class="player" id="beat3" src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-3.mp3" preload="none"></audio>
+                            <audio class="player" id="beat3" src="g4k3t8rP1dM" preload="none"></audio>
                             <div class="actions">
                                 <span class="price">$4.99</span>
                                 <a href="cart.html" class="btn btn-secondary">Add to Cart</a>
@@ -1129,7 +1450,7 @@
                                 <span>R&B</span>
                                 <span>95 BPM</span>
                             </div>
-                            <audio class="player" id="beat4" src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-4.mp3" preload="none"></audio>
+                            <audio class="player" id="beat4" src="O6B8_8R9vX4" preload="none"></audio>
                             <div class="actions">
                                 <span class="price">$4.99</span>
                                 <a href="cart.html" class="btn btn-secondary">Add to Cart</a>
@@ -1145,16 +1466,16 @@
             <div class="container">
                 <h2 class="animate-on-scroll"><span class="text-gradient">Browse</span> by Genre</h2>
                 <div class="genre-grid carousel-container">
-                    <a href="#" class="genre-card animate-on-scroll" style="background-image: url('https://images.unsplash.com/photo-1593693397645-c6d69151d085?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1740&q=80');">
+                    <a href="trap.html" class="genre-card animate-on-scroll" style="background-image: url('https://is.zobj.net/image-server/v1/images?r=oVhnS6kKOHjAQC9kN5OqN-p8zqNFBx5VyNKVKK3dQ8DXWu9hirNZxD1Shq3h-lQROHvwZA6wRqwo-It_QKKIHBvwIXZkK2WwSUay998ZYIN7ycKvyCA0Nq9oiiIx7swzMWVT3ul4vozE9rSq_YkyvNACuEeug0OT7UExGXj5PDv8T64DCE8rANjSRYrruSJ_SihA_vXNrZKJko9dlJtY6Bzt0cxMvIkX_Nz7dg');">
                         <h3>Trap</h3>
                     </a>
-                    <a href="#" class="genre-card animate-on-scroll" style="--delay: 100ms; background-image: url('https://images.unsplash.com/photo-1484712401471-05c72158c0eb?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1740&q=80');">
+                    <a href="lofi.html" class="genre-card animate-on-scroll" style="--delay: 100ms; background-image: url('https://t3.ftcdn.net/jpg/08/11/40/90/360_F_811409098_JNgAcZMDnc6cfClyXyXWbEtFVYkd5CGw.jpg');">
                         <h3>Lo-Fi</h3>
                     </a>
-                    <a href="#" class="genre-card animate-on-scroll" style="--delay: 200ms; background-image: url('https://images.unsplash.com/photo-1542223616-740d5dff7f56?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1740&q=80');">
+                    <a href="r&b.html" class="genre-card animate-on-scroll" style="--delay: 200ms; background-image: url('https://images.unsplash.com/photo-1542223616-740d5dff7f56?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1740&q=80');">
                         <h3>R&B</h3>
                     </a>
-                    <a href="#" class="genre-card animate-on-scroll" style="--delay: 300ms; background-image: url('https://images.unsplash.com/photo-1604164387532-a337189d231a?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1740&q=80');">
+                    <a href="drill.html" class="genre-card animate-on-scroll" style="--delay: 300ms; background-image: url('https://wallpapers.com/images/hd/uk-drill-ziak-akimbo-ylkdowcj11pw57kp.jpg');">
                         <h3>Drill</h3>
                     </a>
                 </div>
@@ -1176,7 +1497,7 @@
                             <li>Use for 1 Music Video</li>
                             <li>Must Credit (Prod. BHXBEATS)</li>
                         </ul>
-                        <a href="#" class="btn btn-secondary">Select Plan</a>
+                        <a href="license.html" class="btn btn-secondary">Select Plan</a>
                     </div>
                     
                     <div class="pricing-card popular animate-on-scroll" style="--delay: 150ms;">
@@ -1189,7 +1510,7 @@
                             <li>Use for 5 Music Video</li>
                             <li>Must Credit (Prod. BHXBEATS)</li>
                         </ul>
-                        <a href="#" class="btn">Select Plan</a>
+                        <a href="license.html" class="btn">Select Plan</a>
                     </div>
 
                     <div class="pricing-card animate-on-scroll" style="--delay: 300ms;">
@@ -1201,7 +1522,7 @@
                             <li>Unlimited Music Videos</li>
                             <li>No Credit Required</li>
                         </ul>
-                        <a href="license.html #" class="btn btn-secondary">Select Plan</a>
+                        <a href="license.html" class="btn btn-secondary">Select Plan</a>
                     </div>
                     
                 </div>
@@ -1255,38 +1576,66 @@
         </div>
     </footer>
 
+    <div class="bottom-tab-bar">
+        <a href="#hero" class="tab-item active">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8h5z"/></svg>
+            Home
+        </a>
+        <a href="beats.html" class="tab-item">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 3v10.55c-.59-.34-1.27-.55-2-.55-2.21 0-4 1.79-4 4s1.79 4 4 4 4-1.79 4-4V7h4V3h-6z"/></svg>
+            Beats
+        </a>
+        <a href="#licensing" class="tab-item">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M10 18c0-.34.02-.67.04-1H4V5h16v1.96c.33.02.66.04 1 .04V4c0-1.11-.89-2-2-2H4c-1.11 0-2 .89-2 2v14c0 1.11.89 2 2 2h7c-.01-.34-.01-.67-.01-1H4v-1h6zM15.5 18c0 2.49 2.01 4.5 4.5 4.5s4.5-2.01 4.5-4.5-2.01-4.5-4.5-4.5-4.5 2.01-4.5 4.5zm5.5-2h-2v-2h-2v2h-2v2h2v2h2v-2h2v-2zM18 9l-4-4-4 4h2v2h4V9h2zm-2.5-3.5L18 8h-4l1.5-1.5z"/></svg>
+            License
+        </a>
+        <a href="cart.html" class="tab-item">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M7 18c-1.1 0-1.99.9-1.99 2S5.9 22 7 22s2-.9 2-2-.9-2-2-2zM1 2v2h2l3.6 7.59-1.35 2.45c-.16.28-.25.61-.25.96 0 1.1.9 2 2 2h12v-2H7.42c-.14 0-.25-.11-.25-.25l.03-.12.9-1.63h7.45c.75 0 1.41-.41 1.75-1.03l3.58-6.49c.08-.14.12-.31.12-.48 0-.55-.45-1-1-1H5.21l-.94-2H1zm16 16c-1.1 0-1.99.9-1.99 2s.89 2 1.99 2 2-.9 2-2-.9-2-2-2z"/></svg>
+            Cart
+            <span class="cart-count">0</span>
+        </a>
+    </div>
+
 
       <script>
         document.addEventListener('DOMContentLoaded', function() {
 
-            // --- 1. Mobile Navigation Toggle ---
+            // --- 1. Mobile Navigation Toggle (Removed for app view, keep for desktop) ---
             const hamburger = document.querySelector('.hamburger');
             const navLinks = document.querySelector('.nav-links');
             const links = document.querySelectorAll('.nav-links li');
+            const isMobile = window.matchMedia('(max-width: 767px)').matches;
 
-            hamburger.addEventListener('click', () => {
-                navLinks.classList.toggle('nav-active');
-                hamburger.classList.toggle('toggle');
-            });
+            if (!isMobile) {
+                 hamburger.addEventListener('click', () => {
+                    navLinks.classList.toggle('nav-active');
+                    hamburger.classList.toggle('toggle');
+                });
 
-            links.forEach(link => {
-                link.addEventListener('click', () => {
-                    if (navLinks.classList.contains('nav-active')) {
-                        navLinks.classList.remove('nav-active');
-                        hamburger.classList.remove('toggle');
+                links.forEach(link => {
+                    link.addEventListener('click', () => {
+                        if (navLinks.classList.contains('nav-active')) {
+                            navLinks.classList.remove('nav-active');
+                            hamburger.classList.remove('toggle');
+                        }
+                    });
+                });
+            }
+
+
+            // --- 2. Header Scroll Effect (Modified: Disable on Mobile) ---
+            const header = document.querySelector('header');
+            if (!isMobile) {
+                window.addEventListener('scroll', () => {
+                    if (window.scrollY > 50) {
+                        header.classList.add('header-scrolled');
+                    } else {
+                        header.classList.remove('header-scrolled');
                     }
                 });
-            });
-
-            // --- 2. Header Scroll Effect ---
-            const header = document.querySelector('header');
-            window.addEventListener('scroll', () => {
-                if (window.scrollY > 50) {
-                    header.classList.add('header-scrolled');
-                } else {
-                    header.classList.remove('header-scrolled');
-                }
-            });
+            } else {
+                header.classList.remove('header-scrolled'); // Ensure it's off for the app view
+            }
 
 
             // --- 3. On-Scroll Fade-In Animations ---
@@ -1310,19 +1659,37 @@
             }
 
 
-            // --- 4. Interactive Beat Player Logic ---
+            // --- 4. Interactive Beat Player Logic (UPDATED to support YouTube ID playback) ---
             const beatCards = document.querySelectorAll('.beat-card');
             let currentlyPlaying = null; 
+
+            // Create a dedicated audio object to handle playback
+            let youtubeAudioPlayer = new Audio();
+            youtubeAudioPlayer.crossOrigin = "anonymous";
+            
+            // Function to get the real audio source URL (e.g., a short proxy for the YouTube audio stream)
+            // NOTE: In a real production app, this would require a backend service or API to convert the YouTube ID to a streamable audio URL. 
+            // For this demonstration, we'll use a placeholder/generic MP3.
+            function getBeatAudioSource(youtubeId) {
+                // In a real application, you'd use the youtubeId to fetch a direct audio link.
+                // For demonstration, we'll map the IDs to placeholders:
+                if (youtubeId === 'nSjXnUcNkX8') return 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3';
+                if (youtubeId === 'jfKfPfyBkdg') return 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-2.mp3';
+                if (youtubeId === 'g4k3t8rP1dM') return 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-3.mp3';
+                if (youtubeId === 'O6B8_8R9vX4') return 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-4.mp3';
+                return 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3'; // Fallback
+            }
 
             beatCards.forEach(card => {
                 const art = card.querySelector('.art');
                 const beatId = art.dataset.beat;
-                const audio = card.querySelector(`#${beatId}`);
+                const audioElement = card.querySelector(`#${beatId}`); // This element now holds the YouTube ID in its 'src'
+                const youtubeId = audioElement.getAttribute('src');
                 const playIcon = card.querySelector('.play-icon');
                 const playPath = card.querySelector('.play-path');
                 const pausePath = card.querySelector('.pause-path');
                 
-                if (!audio) return;
+                if (!youtubeId) return;
 
                 function showPlay() {
                     playPath.style.display = 'block';
@@ -1335,54 +1702,90 @@
                     pausePath.style.display = 'block';
                     card.classList.add('is-playing');
                 }
+                
+                function resetAllCards() {
+                    beatCards.forEach(otherCard => {
+                        otherCard.classList.remove('is-playing');
+                        const otherPlayPath = otherCard.querySelector('.play-path');
+                        const otherPausePath = otherCard.querySelector('.pause-path');
+                        if (otherPlayPath) otherPlayPath.style.display = 'block';
+                        if (otherPausePath) otherPausePath.style.display = 'none';
+                    });
+                }
 
                 if(art) {
                     art.addEventListener('click', () => {
-                        if (audio.paused) {
-                            if (currentlyPlaying && currentlyPlaying !== audio) {
-                                currentlyPlaying.pause();
-                            }
-                            audio.play();
+                        const isThisCardPlaying = card.classList.contains('is-playing');
+                        
+                        if (isThisCardPlaying) {
+                            // Pause the currently playing song
+                            youtubeAudioPlayer.pause();
+                            resetAllCards();
+                            currentlyPlaying = null;
                         } else {
-                            audio.pause();
+                            // Stop any currently playing song first
+                            if (currentlyPlaying) {
+                                currentlyPlaying.pause();
+                                resetAllCards(); 
+                            }
+                            
+                            // Set the source and play the new beat
+                            youtubeAudioPlayer.src = getBeatAudioSource(youtubeId);
+                            youtubeAudioPlayer.play().catch(e => console.error("Playback failed:", e));
+                            
+                            // Update UI for the new card
+                            showPause();
+                            currentlyPlaying = youtubeAudioPlayer;
+                            
+                            // Store a reference to the card playing this audio (for UI sync)
+                            youtubeAudioPlayer.playingCard = card;
                         }
                     });
                 }
                 
-                audio.addEventListener('ended', () => {
-                    showPlay();
-                    currentlyPlaying = null;
-                });
-                
-                audio.addEventListener('pause', () => {
-                    showPlay();
-                    if (currentlyPlaying === audio) {
+                // Add listeners to the global player to sync UI
+                youtubeAudioPlayer.addEventListener('ended', () => {
+                    if (youtubeAudioPlayer.playingCard === card) {
+                        showPlay();
+                        youtubeAudioPlayer.playingCard = null;
                         currentlyPlaying = null;
                     }
                 });
                 
-                audio.addEventListener('play', () => {
-                    beatCards.forEach(otherCard => {
-                        if (otherCard !== card) {
-                            otherCard.querySelector('.play-path').style.display = 'block';
-                            otherCard.querySelector('.pause-path').style.display = 'none';
-                            otherCard.classList.remove('is-playing');
-                        }
-                    });
-                    showPause();
-                    currentlyPlaying = audio;
+                youtubeAudioPlayer.addEventListener('pause', () => {
+                    if (youtubeAudioPlayer.playingCard === card) {
+                        showPlay();
+                        youtubeAudioPlayer.playingCard = null;
+                        currentlyPlaying = null;
+                    }
+                });
+                
+                youtubeAudioPlayer.addEventListener('play', () => {
+                    if (youtubeAudioPlayer.playingCard === card) {
+                        resetAllCards(); // Ensure all others are reset
+                        showPause(); // Ensure this one is showing pause
+                    }
                 });
             });
 
-            // --- 5. NEW: Cart Functionality ---
+            // --- 5. Cart Functionality ---
             
-            // Function to update the cart count in the header
+            // Function to update the cart count in the header AND the bottom tab bar
             function updateCartCount() {
                 const cart = JSON.parse(localStorage.getItem('bhxbeats_cart')) || [];
-                const cartCount = document.querySelector('.cart-count');
-                if (cartCount) {
-                    cartCount.textContent = cart.length;
-                    cartCount.style.display = cart.length > 0 ? 'flex' : 'none';
+                
+                // For desktop header icon
+                const desktopCartCount = document.querySelector('.header-container .cart-count');
+                if (desktopCartCount) {
+                    desktopCartCount.textContent = cart.length;
+                    desktopCartCount.style.display = cart.length > 0 ? 'flex' : 'none';
+                }
+                
+                // For mobile tab bar icon
+                const mobileCartCount = document.querySelector('.bottom-tab-bar .cart-count');
+                if (mobileCartCount) {
+                    mobileCartCount.textContent = cart.length;
+                    mobileCartCount.style.display = cart.length > 0 ? 'flex' : 'none';
                 }
             }
 
@@ -1401,7 +1804,6 @@
                 const image = card.querySelector('.art img').src;
 
                 // For this simple cart, we'll just add the "Basic License"
-                // A real site would pop up a modal to select a license
                 const license = 'Basic License'; 
                 
                 // Create a unique ID for this item *including* license
@@ -1429,9 +1831,13 @@
 
                 // Give user feedback
                 button.textContent = 'Added!';
+                button.classList.remove('btn-secondary');
+                button.classList.add('btn');
                 button.style.opacity = '0.7';
                 setTimeout(() => {
                     button.textContent = 'Add to Cart';
+                    button.classList.remove('btn');
+                    button.classList.add('btn-secondary');
                     button.style.opacity = '1';
                 }, 2000);
             }
@@ -1441,6 +1847,63 @@
             addToCartButtons.forEach(button => {
                 button.addEventListener('click', addToCart);
             });
+            
+            // --- 6. NEW: Tab Bar Active State Logic & Initial Scroll for Licensing ---
+            const tabItems = document.querySelectorAll('.bottom-tab-bar .tab-item');
+            
+            // Function to set the active tab based on the current hash/URL (basic implementation)
+            function setActiveTab() {
+                const currentHash = window.location.hash || '#hero';
+                tabItems.forEach(item => {
+                    item.classList.remove('active');
+                    const itemHash = item.getAttribute('href');
+                    
+                    // Simple logic to set active state based on the main section the user is near
+                    if (currentHash.includes(itemHash)) {
+                        item.classList.add('active');
+                    } else if (itemHash === '#featured-beats' && currentHash === 'beats.html') {
+                        // Handle the dedicated beats page link
+                        item.classList.add('active');
+                    } else if (itemHash === '#hero' && (currentHash === '#top' || currentHash === '#home' || currentHash === '')) {
+                        item.classList.add('active');
+                    }
+                });
+            }
+            
+            // Function to center the "Most Popular" card in the Licensing Carousel on load (Mobile only)
+            function centerPopularCard() {
+                const pricingGrid = document.querySelector('.pricing-grid');
+                const popularCard = document.querySelector('.pricing-card.popular');
+                const isMobile = window.matchMedia('(max-width: 767px)').matches;
+
+                if (isMobile && pricingGrid && popularCard) {
+                    // Wait for layout calculation to complete
+                    window.requestAnimationFrame(() => {
+                        const cardRect = popularCard.getBoundingClientRect();
+                        const gridRect = pricingGrid.getBoundingClientRect();
+                        
+                        // Calculate the scroll position needed to center the card
+                        const scrollLeftPosition = popularCard.offsetLeft - (gridRect.width / 2) + (cardRect.width / 2);
+
+                        // Scroll the grid horizontally to the calculated position
+                        pricingGrid.scrollLeft = scrollLeftPosition;
+                        
+                        // Because of the horizontal padding applied in CSS to align the first/last elements
+                        // we need to offset by the left padding of the grid container itself to achieve true centering.
+                        const mobilePadding = 20; // The padding of the main .container
+                        const centeringOffset = pricingGrid.scrollLeft - mobilePadding;
+                        pricingGrid.scrollLeft = centeringOffset;
+                    });
+                }
+            }
+
+            // Call on load and on hash change
+            window.addEventListener('load', () => {
+                setActiveTab();
+                centerPopularCard(); // Center popular card on initial load
+            });
+            window.addEventListener('hashchange', setActiveTab);
+
 
             // --- Run on initial page load ---
             updateCartCount();

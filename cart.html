@@ -317,12 +317,6 @@
             color: var(--text-secondary);
             margin-bottom: 0;
         }
-        .cart-item-price {
-            font-size: 1.2rem;
-            font-weight: 700;
-            color: #fff;
-            text-align: right;
-        }
         .cart-item-remove {
             background: none;
             border: none;
@@ -331,10 +325,24 @@
             cursor: pointer;
             transition: color 0.3s ease;
             padding: 5px;
+            text-align: left; /* Keep remove link left-aligned in info block */
         }
         .cart-item-remove:hover {
             color: #ff4d4d; /* Red for remove */
         }
+        .cart-item-remove-wrapper {
+            display: flex;
+            justify-content: flex-end; /* Push price and remove to the right */
+            flex-direction: column;
+            align-items: flex-end;
+            gap: 5px;
+        }
+        .cart-item-price {
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: #fff;
+        }
+
 
         .cart-summary {
             background: var(--bg-dark-secondary);
@@ -477,19 +485,155 @@
                 font-size: 2.2rem;
             }
             .cart-item {
-                grid-template-columns: 1fr; /* Stack on very small screens */
-                text-align: center;
+                grid-template-columns: 80px 1fr; /* Keep 2 column structure */
+                text-align: left;
+                padding: 1rem;
             }
             .cart-item-img {
-                margin: 0 auto;
+                margin: 0;
+                grid-column: 1 / 2;
+                grid-row: 1 / 3;
+            }
+            .cart-item-info {
+                grid-column: 2 / 3;
+                grid-row: 1 / 2;
+            }
+            .cart-item-remove-wrapper {
+                grid-column: 2 / 3;
+                grid-row: 2 / 3;
+                flex-direction: row;
+                justify-content: space-between;
+                align-items: center;
+                border-top: 1px dashed var(--bg-dark-tertiary);
+                padding-top: 10px;
+                margin-top: 5px;
             }
             .cart-item-price {
-                text-align: center;
-                margin-top: 1rem;
+                margin-top: 0;
+            }
+            .cart-item-remove {
+                padding: 0;
+            }
+        }
+
+        /* --- NEW: Mobile App View Styles (Overrides for max-width: 767px) --- */
+        @media (max-width: 767px) {
+            
+            body {
+                padding-bottom: 65px; /* Space for the bottom tab bar */
+            }
+
+            /* --- 3. Header/Nav Override (App-style) --- */
+            header {
+                position: static; /* No longer fixed or sticky */
+                padding: 15px 0;
+                background-color: var(--bg-dark-primary);
+                border-bottom: none;
+                box-shadow: none;
+                backdrop-filter: none;
+            }
+            
+            .header-container {
+                justify-content: flex-start; 
+                gap: 15px;
+            }
+            
+            .logo {
+                flex-grow: 1; /* Push others to the right */
+            }
+            
+            /* Hide the original mobile nav, hamburger, and cart icon in header */
+            .nav-links, .hamburger, .cart-icon-link {
+                display: none !important;
+            }
+            
+            /* --- 4. Page Header Override --- */
+            #page-header {
+                padding-top: 0;
+                padding-bottom: 40px;
+                text-align: left; /* Align to left like a native app header */
+            }
+            #page-header h1 {
+                font-size: 2.5rem;
+            }
+
+            /* --- 5. Cart Section Override --- */
+            .cart-summary {
+                /* Remove sticky for mobile */
+                position: static;
+                top: auto;
+            }
+            
+            /* --- NEW: Bottom Tab Bar (Copied from index.html) --- */
+            .bottom-tab-bar {
+                display: flex;
+                position: fixed;
+                bottom: 0;
+                left: 0;
+                width: 100%;
+                background: var(--bg-dark-secondary);
+                box-shadow: 0 -5px 20px rgba(0,0,0,0.5);
+                height: 65px;
+                z-index: 1000;
+                border-top: 1px solid var(--bg-dark-tertiary);
+            }
+            
+            .tab-item {
+                flex: 1;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                justify-content: center;
+                color: var(--text-secondary);
+                text-decoration: none;
+                font-size: 0.7rem;
+                font-weight: 600;
+                transition: color 0.3s ease;
+                position: relative; /* IMPORTANT for cart-count relative positioning */
+            }
+            
+            .tab-item.active {
+                color: var(--accent-primary);
+            }
+            
+            .tab-item svg {
+                width: 24px;
+                height: 24px;
+                fill: currentColor; 
+                margin-bottom: 3px;
+            }
+            
+            .tab-item .cart-count {
+                position: absolute;
+                top: 5px;
+                right: 50%;
+                /* FIX APPLIED HERE: Corrected margin for accurate alignment over the Cart icon */
+                margin-right: -10px; 
+                transform: translateX(50%);
+                border: 2px solid var(--bg-dark-secondary);
+            }
+
+            /* --- 6. Footer Override --- */
+            footer {
+                padding-bottom: 65px; /* Adjust for the bottom tab bar */
+            }
+            
+            .footer-container {
+                gap: 20px;
+                padding-bottom: 20px;
+            }
+            
+            .footer-links, .footer-social {
+                display: none; /* Hide detailed links for the app-like view */
             }
         }
 
         @media (min-width: 768px) {
+            
+            .bottom-tab-bar {
+                display: none !important;
+            }
+            
             #page-header h1 {
                 font-size: 4rem;
             }
@@ -511,6 +655,7 @@
                 flex-direction: row;
                 transform: translateX(0);
                 box-shadow: none;
+                display: flex;
             }
             .nav-links li {
                 margin: 0 0 0 30px;
@@ -604,7 +749,7 @@
                             <span>Total</span>
                             <span id="summary-total">$0.00</span>
                         </div>
-                       <a href="checkout.html" class="btn btn-secondary">Proceed to checkout</a>
+                       <a href="checkout.html" class="btn">Proceed to checkout</a>
                     </aside>
 
                 </div>
@@ -644,41 +789,71 @@
         </div>
     </footer>
 
+    <div class="bottom-tab-bar">
+        <a href="index.html#hero" class="tab-item">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8h5z"/></svg>
+            Home
+        </a>
+        <a href="beats.html" class="tab-item">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 3v10.55c-.59-.34-1.27-.55-2-.55-2.21 0-4 1.79-4 4s1.79 4 4 4 4-1.79 4-4V7h4V3h-6z"/></svg>
+            Beats
+        </a>
+        <a href="index.html#genres" class="tab-item">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M10 18c0-.34.02-.67.04-1H4V5h16v1.96c.33.02.66.04 1 .04V4c0-1.11-.89-2-2-2H4c-1.11 0-2 .89-2 2v14c0 1.11.89 2 2 2h7c-.01-.34-.01-.67-.01-1H4v-1h6zM15.5 18c0 2.49 2.01 4.5 4.5 4.5s4.5-2.01 4.5-4.5-2.01-4.5-4.5-4.5-4.5 2.01-4.5 4.5zm5.5-2h-2v-2h-2v2h-2v2h2v2h2v-2h2v-2zM18 9l-4-4-4 4h2v2h4V9h2zm-2.5-3.5L18 8h-4l1.5-1.5z"/></svg>
+            Create
+        </a>
+        <a href="cart.html" class="tab-item active">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M7 18c-1.1 0-1.99.9-1.99 2S5.9 22 7 22s2-.9 2-2-.9-2-2-2zM1 2v2h2l3.6 7.59-1.35 2.45c-.16.28-.25.61-.25.96 0 1.1.9 2 2 2h12v-2H7.42c-.14 0-.25-.11-.25-.25l.03-.12.9-1.63h7.45c.75 0 1.41-.41 1.75-1.03l3.58-6.49c.08-.14.12-.31.12-.48 0-.55-.45-1-1-1H5.21l-.94-2H1zm16 16c-1.1 0-1.99.9-1.99 2s.89 2 1.99 2 2-.9 2-2-.9-2-2-2z"/></svg>
+            Cart
+            <span class="cart-count">0</span>
+        </a>
+    </div>
 
     <script>
         document.addEventListener('DOMContentLoaded', function() {
 
-            // --- 1. Mobile Navigation Toggle ---
+            // --- 1. Mobile Navigation Toggle (Desktop Only) ---
             const hamburger = document.querySelector('.hamburger');
             const navLinks = document.querySelector('.nav-links');
             const links = document.querySelectorAll('.nav-links li');
 
-            hamburger.addEventListener('click', () => {
-                navLinks.classList.toggle('nav-active');
-                hamburger.classList.toggle('toggle');
-            });
-            links.forEach(link => {
-                link.addEventListener('click', () => {
-                    if (navLinks.classList.contains('nav-active')) {
-                        navLinks.classList.remove('nav-active');
-                        hamburger.classList.remove('toggle');
-                    }
+            // Only attach for non-mobile devices (where hamburger is displayed)
+            if (window.matchMedia('(min-width: 768px)').matches) {
+                hamburger.addEventListener('click', () => {
+                    navLinks.classList.toggle('nav-active');
+                    hamburger.classList.toggle('toggle');
                 });
-            });
+                links.forEach(link => {
+                    link.addEventListener('click', () => {
+                        if (navLinks.classList.contains('nav-active')) {
+                            navLinks.classList.remove('nav-active');
+                            hamburger.classList.remove('toggle');
+                        }
+                    });
+                });
+            }
 
-            // --- 2. Header Scroll Effect (Not needed, header is fixed) ---
 
-            // --- 3. NEW: Cart Header Count Updater ---
+            // --- 2. Cart Header/Tab Bar Count Updater (Updated for Tab Bar) ---
             function updateCartCount() {
                 const cart = JSON.parse(localStorage.getItem('bhxbeats_cart')) || [];
-                const cartCount = document.querySelector('.cart-count');
-                if (cartCount) {
-                    cartCount.textContent = cart.length;
-                    cartCount.style.display = cart.length > 0 ? 'flex' : 'none';
+                
+                // For desktop header icon
+                const desktopCartCount = document.querySelector('.header-container .cart-count');
+                if (desktopCartCount) {
+                    desktopCartCount.textContent = cart.length;
+                    desktopCartCount.style.display = cart.length > 0 ? 'flex' : 'none';
+                }
+                
+                // For mobile tab bar icon
+                const mobileCartCount = document.querySelector('.bottom-tab-bar .cart-count');
+                if (mobileCartCount) {
+                    mobileCartCount.textContent = cart.length;
+                    mobileCartCount.style.display = cart.length > 0 ? 'flex' : 'none';
                 }
             }
             
-            // --- 4. NEW: Cart Page Rendering Logic ---
+            // --- 3. NEW: Cart Page Rendering Logic ---
             function renderCart() {
                 const cart = JSON.parse(localStorage.getItem('bhxbeats_cart')) || [];
                 const cartEmptyEl = document.getElementById('cart-empty');
@@ -702,6 +877,7 @@
                     cart.forEach(item => {
                         subtotal += item.price;
                         
+                        // Modified itemHtml to fit better with the 2-column mobile structure
                         const itemHtml = `
                         <div class="cart-item" data-id="${item.id}">
                             <div class="cart-item-img">
@@ -710,9 +886,11 @@
                             <div class="cart-item-info">
                                 <h3>${item.title}</h3>
                                 <p>${item.license}</p>
+                            </div>
+                            <div class="cart-item-remove-wrapper">
+                                <div class="cart-item-price">$${item.price.toFixed(2)}</div>
                                 <button class="cart-item-remove" data-id="${item.id}">Remove</button>
                             </div>
-                            <div class="cart-item-price">$${item.price.toFixed(2)}</div>
                         </div>
                         `;
                         cartItemsContainer.insertAdjacentHTML('beforeend', itemHtml);
@@ -732,7 +910,8 @@
                 const removeButtons = document.querySelectorAll('.cart-item-remove');
                 removeButtons.forEach(button => {
                     button.addEventListener('click', (e) => {
-                        const itemId = e.target.dataset.id;
+                        // The item ID is the unique identifier for the specific item in the cart array
+                        const itemId = e.target.dataset.id; 
                         removeItemFromCart(itemId);
                     });
                 });
@@ -741,6 +920,8 @@
             function removeItemFromCart(itemId) {
                 let cart = JSON.parse(localStorage.getItem('bhxbeats_cart')) || [];
                 // Find the *first* item with this ID and remove it
+                // NOTE: In a real app, you'd use a UUID, but since the logic from index.html
+                // uses a composite ID, we use that for matching.
                 const itemIndex = cart.findIndex(item => item.id === itemId);
                 if (itemIndex > -1) {
                     cart.splice(itemIndex, 1);
@@ -752,9 +933,24 @@
                 renderCart();
             }
 
+            // --- 4. NEW: Tab Bar Active State Logic (Simple) ---
+            const tabItems = document.querySelectorAll('.bottom-tab-bar .tab-item');
+            
+            function setActiveTab() {
+                // Since this is the cart page, we always set the cart tab as active
+                tabItems.forEach(item => {
+                    item.classList.remove('active');
+                    if (item.getAttribute('href') === 'cart.html') {
+                        item.classList.add('active');
+                    }
+                });
+            }
+
+
             // --- Initial Page Load ---
             updateCartCount();
             renderCart();
+            setActiveTab();
 
         });
     </script>
